@@ -4,7 +4,7 @@ import TopBar from './components/TopBar';
 import BreakingNews from './components/BreakingNews';
 import NewsCard from './components/NewsCard';
 import NewsSection from './components/NewsSection';
-import ShortsSection from './components/shortVideo/shortsSection';
+import ShortsSection from './components/shortVideo/ShortsSection';
 
 import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
