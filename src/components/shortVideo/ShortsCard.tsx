@@ -1,6 +1,15 @@
 import React from 'react';
 
-const ShortVideoCards = ({ videos }) => {
+interface Video {
+  thumbnail: string;
+  title: string;
+}
+
+interface ShortVideoCardsProps {
+  videos: Video[];
+}
+
+const ShortVideoCards: React.FC<ShortVideoCardsProps> = ({ videos }) => {
   return (
     <div className="p-4 bg-white-100">
       {/* Header */}
