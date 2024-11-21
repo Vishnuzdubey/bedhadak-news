@@ -8,6 +8,7 @@ import ShortsSection from './components/shortVideo/shortsSection';
 
 import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
+import CategoryNews from './components/CategoryNews/CategoryNews';
 
 
 function App() {
@@ -18,7 +19,10 @@ function App() {
   const breakingNews = [
     "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
     "ब्रेकिंग: तटीय क्षेत्र में 6.2 तीव्रता का भूकंप",
-    "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता"
+    "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता",
+    "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
+    "ब्रेकिंग: तटीय क्षेत्र में 6.2 तीव्रता का भूकंप",
+    "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता",
   ];
 
   const newsItems = [
@@ -42,6 +46,48 @@ function App() {
     }
   ];
 
+  const newsData = [
+    {
+    title: "पर्यावरण",
+    mainNews: {
+      image: "https://via.placeholder.com/300x200", // Replace with the actual image URL
+      description: "पीएम मोदी-अमित शाह ने की 'द साबरमती रिपोर्ट' की तारीफ, अब सीएम योगी से मिले विक्रांत मैसी",
+    },
+    sideNews: [
+      {
+        image: "https://via.placeholder.com/150x100", // Replace with the actual image URL
+        description: "ऐतिहासिक जलवायु समझौता', चौथे दिन किया इतना कलेक्शन",
+      },
+      {
+        image: "https://via.placeholder.com/150x100", // Replace with the actual image URL
+        description: "शूट किया, फिर क्यों बीच में 'करण अर्जुन' फिल्म से गुलशन ग्रोवर हुए बाहर?",
+      },
+      {
+        image: "https://via.placeholder.com/150x100", // Replace with the actual image URL
+        description: "'तारक मेहता' छोड़ रहे जेठालाल? दिलीप जोशी ने तोड़ी चुप्पी",
+      },
+    ],
+  },{
+    title: "मनोरंजन",
+    mainNews: {
+      image: "https://via.placeholder.com/300x200", // Replace with the actual image URL
+      description: "पीएम मोदी-अमित शाह ने की 'द साबरमती रिपोर्ट' की तारीफ, अब सीएम योगी से मिले विक्रांत मैसी",
+    },
+    sideNews: [
+      {
+        image: "https://via.placeholder.com/150x100", // Replace with the actual image URL
+        description: "मंडे टेस्ट में दमदार कमाई के साथ पास हुई 'द साबरमती रिपोर्ट', चौथे दिन किया इतना कलेक्शन",
+      },
+      {
+        image: "https://via.placeholder.com/150x100", // Replace with the actual image URL
+        description: "शूट किया, फिर क्यों बीच में 'करण अर्जुन' फिल्म से गुलशन ग्रोवर हुए बाहर?",
+      },
+      {
+        image: "https://via.placeholder.com/150x100", // Replace with the actual image URL
+        description: "'तारक मेहता' छोड़ रहे जेठालाल? दिलीप जोशी ने तोड़ी चुप्पी",
+      },
+    ],
+  }];
   return (
     <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
@@ -49,9 +95,11 @@ function App() {
       
       <div className="flex justify-between">
         {/* Left Ad Space */}
+        
         <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
+        {/* live Metals price  */}
+        <MetalPrice/>
           <div className="sticky top-4">
-          <MetalPrice/>
             <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
               <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
             </div>
@@ -65,7 +113,7 @@ function App() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {newsItems.map((news, index) => (
-                <NewsCard key={index} {...news} isDarkMode={isDarkMode} />
+                <NewsCard key={index} {...news} isDarkMode={isDarkMode}  />
               ))}
             </div>
           </section>
@@ -73,13 +121,18 @@ function App() {
           <div className="w-full h-32 bg-red-600 rounded-lg mb-12 flex items-center justify-center text-white">
             <p className="text-xl font-bold">विज्ञापन स्थान</p>
           </div>
+
+          {/* breakingNews section */}
           <NewsSection />
-          <ShortsSection/>
+          {/* shorts video section */}
+          <ShortsSection />
+          {newsData.map((category)=>(<CategoryNews newsData={category} />))}
         </main>
 {/* Right Ad Space */}
         <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
+          {/* live petrol price  */}
+        <PetroliumPrice/>
           <div className="sticky top-4">
-          <PetroliumPrice/>
             <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
               <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
             </div>

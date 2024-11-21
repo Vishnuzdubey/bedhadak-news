@@ -21,15 +21,13 @@ const NewsSection = () => {
           </li>
           ))}
         </ul>
-
       </div>
-
       {/* Right Section - लाइव अपडेट */}
       <div className="md:w-2/5">
         <h2 className="text-xl font-bold text-red-600 mb-4">लाइव अपडेट</h2>
         <ul className="space-y-6">
           {liveNews.map((live) => (
-              <li className="flex items-start">
+              <li className="flex items-start" key={live.time}>
               <span className="text-gray-500 text-sm mr-4">{live.time}</span>
               <a href=''>{live.content}</a>
             </li>
