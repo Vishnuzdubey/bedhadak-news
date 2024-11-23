@@ -1,14 +1,8 @@
 import React from 'react';
-import { Sun, Moon, Bell, Search, Menu, X } from 'lucide-react';
+import { Sun, Moon, Bell, Search, Menu, X, Facebook, Youtube, Instagram, Twitter } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
-interface TopBarProps {
-  isDarkMode: boolean;
-  setIsDarkMode: (value: boolean) => void;
-  isMenuOpen: boolean;
-  setIsMenuOpen: (value: boolean) => void;
-}
-
-const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, setIsMenuOpen }) => {
+const TopBar = ({ isDarkMode, setIsDarkMode, isMenuOpen, setIsMenuOpen }) => {
   return (
     <nav className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-red-600 text-white'}`}>
       <div className="container mx-auto px-4">
@@ -18,7 +12,11 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, 
             <span>🌤️ 28°C</span>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="hover:text-red-200">साइन इन</button>
+            <Facebook size={20} className="cursor-pointer" />
+            <Youtube size={20} className="cursor-pointer" />
+            <Instagram size={20} className="cursor-pointer" />
+            <Twitter size={20} className="cursor-pointer" />
+            <button className="hover:text-red-200">विज्ञापन के लिए संपर्क करें</button>
             <button onClick={() => setIsDarkMode(!isDarkMode)}>
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
@@ -31,12 +29,12 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, 
             <div className="flex items-center space-x-8">
               <h1 className="text-2xl font-bold">बेधड़क न्यूज़</h1>
               <div className="hidden md:flex items-center space-x-6">
-                <a href="#" className="hover:text-red-200">होम</a>
-                <a href="#" className="hover:text-red-200">भारत</a>
-                <a href="#" className="hover:text-red-200">विश्व</a>
-                <a href="#" className="hover:text-red-200">व्यापार</a>
-                <a href="#" className="hover:text-red-200">टेक</a>
-                <a href="#" className="hover:text-red-200">खेल</a>
+                <Link to='/' className='hover:text-red-500'>होम</Link>
+                <Link to='/news/india' className='hover:text-red-500'>भारत</Link>
+                <Link to='/news/world' className='hover:text-red-500'>विश्व</Link>
+                <Link to='/news/business' className='hover:text-red-500'>व्यापार</Link>
+                <Link to='/news/tech' className='hover:text-red-500'>टेक</Link>
+                <Link to='/news/sports' className='hover:text-red-500'>खेल</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">

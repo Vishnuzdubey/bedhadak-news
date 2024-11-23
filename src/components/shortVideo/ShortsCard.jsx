@@ -11,7 +11,7 @@ const ShortVideoCards = ({ videos }) => {
         {videos.map((video, index) => (
           <div
             key={index}
-            className="relative h-60  flex-shrink-0 bg-black rounded-lg overflow-hidden"
+            className="relative h-60 flex-shrink-0 bg-black rounded-lg overflow-hidden"
           >
             {/* Video Thumbnail */}
             <img

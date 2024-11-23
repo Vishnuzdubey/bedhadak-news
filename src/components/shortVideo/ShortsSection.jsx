@@ -1,7 +1,7 @@
 import React from 'react';
-import ShortsCard from './shortsCard';
+import ShortsCard from './ShortsCard';
 
-const App = () => {
+const ShortsSection = () => {
   // Sample video data (replace with your API data)
   const videos = [
     {
@@ -49,4 +49,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default ShortsSection;

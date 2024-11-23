@@ -1,15 +1,7 @@
 import React from 'react';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 
-interface NewsCardProps {
-  title: string;
-  description: string;
-  image: string;
-  category: string;
-  isDarkMode: boolean;
-}
-
-const NewsCard: React.FC<NewsCardProps> = ({ title, description, image, category, isDarkMode }) => {
+const NewsCard = ({ title, description, image, category, isDarkMode }) => {
   return (
     <div className={`rounded-lg overflow-hidden shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
       <img src={image} alt={title} className="w-full h-48 object-cover" />
