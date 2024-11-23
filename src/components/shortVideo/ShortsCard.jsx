@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 
-const ShortVideoCards = ({ videos }) => {
+const ShortsCard = ({videos}) => {
   return (
     <div className="p-4 bg-white-100">
       {/* Header */}
@@ -48,7 +48,7 @@ const ShortVideoCards = ({ videos }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ShortVideoCards;
+export default ShortsCard
