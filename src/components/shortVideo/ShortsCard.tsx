@@ -1,8 +1,5 @@
 import React from 'react'
 
-<<<<<<< HEAD:src/components/shortVideo/ShortsCard.jsx
-const ShortsCard = ({videos}) => {
-=======
 interface Video {
   thumbnail: string;
   title: string;
@@ -13,7 +10,6 @@ interface ShortVideoCardsProps {
 }
 
 const ShortVideoCards: React.FC<ShortVideoCardsProps> = ({ videos }) => {
->>>>>>> b277cd13fedfc82bd5403f9f945526d5203b0cb5:src/components/shortVideo/ShortsCard.tsx
   return (
     <div className="p-4 bg-white-100">
       {/* Header */}
@@ -64,4 +60,4 @@ const ShortVideoCards: React.FC<ShortVideoCardsProps> = ({ videos }) => {
   )
 }
 
-export default ShortsCard
+export default ShortVideoCards;
