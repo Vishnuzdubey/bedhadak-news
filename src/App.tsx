@@ -128,6 +128,7 @@ function App() {
           <ShortsSection />
           {newsData.map((category)=>(<CategoryNews newsData={category} />))}
         </main>
+
 {/* Right Ad Space */}
         <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
           {/* live petrol price  */}
