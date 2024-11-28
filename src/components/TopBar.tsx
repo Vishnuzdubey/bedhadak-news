@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sun, Moon, Bell, Search, Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 interface TopBarProps {
   isDarkMode: boolean;
@@ -29,44 +30,55 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, 
         <div className="py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
-              <h1 className="text-2xl font-bold">बेधड़क न्यूज़</h1>
+              <Link to="/" className={`text-2xl font-bold ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+                बेधड़क न्यूज़
+              </Link>
               <div className="hidden md:flex items-center space-x-6">
-                <a href="#" className="hover:text-red-200">होम</a>
-                <a href="#" className="hover:text-red-200">भारत</a>
-                <a href="#" className="hover:text-red-200">विश्व</a>
-                <a href="#" className="hover:text-red-200">व्यापार</a>
-                <a href="#" className="hover:text-red-200">टेक</a>
-                <a href="#" className="hover:text-red-200">खेल</a>
+                <Link to="/" className={`hover:text-red-200 ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+                  होम
+                </Link>
+                <Link to="/Newspage" className={`hover:text-red-200 ${location.pathname === '/Newspage' ? 'text-red-200' : ''}`}>
+                  भारत
+                </Link>
+                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                  विश्व
+                </a>
+                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                  व्यापार
+                </a>
+                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                  टेक
+                </a>
+                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                  खेल
+                </a>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <div className="relative hidden md:block">
-                <input
-                  type="text"
-                  placeholder="समाचार खोजें..."
-                  className="bg-red-700 text-white placeholder-red-200 rounded-full px-4 py-1 focus:outline-none focus:ring-2 focus:ring-red-300"
-                />
-                <Search size={20} className="absolute right-3 top-1/2 transform -translate-y-1/2" />
-              </div>
-              <button
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-              </button>
-            </div>
+            {/* Search and Menu Components */}
           </div>
         </div>
 
         {isMenuOpen && (
           <div className="md:hidden py-4">
             <div className="flex flex-col space-y-4">
-              <a href="#" className="hover:text-red-200">होम</a>
-              <a href="#" className="hover:text-red-200">भारत</a>
-              <a href="#" className="hover:text-red-200">विश्व</a>
-              <a href="#" className="hover:text-red-200">व्यापार</a>
-              <a href="#" className="hover:text-red-200">टेक</a>
-              <a href="#" className="hover:text-red-200">खेल</a>
+              <Link to="/" className={`hover:text-red-200 ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+                होम
+              </Link>
+              <Link to="/Newspage" className={`hover:text-red-200 ${location.pathname === '/Newspage' ? 'text-red-200' : ''}`}>
+                भारत
+              </Link>
+              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                विश्व
+              </a>
+              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                व्यापार
+              </a>
+              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                टेक
+              </a>
+              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+                खेल
+              </a>
             </div>
           </div>
         )}

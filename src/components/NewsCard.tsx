@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 
 interface NewsCardProps {
@@ -10,8 +11,19 @@ interface NewsCardProps {
 }
 
 const NewsCard: React.FC<NewsCardProps> = ({ title, description, image, category, isDarkMode }) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    console.log('Clicked');
+    navigate('/NewsPage');
+  };
+
   return (
-    <div className={`rounded-lg overflow-hidden shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+    <div 
+      className={`rounded-lg overflow-hidden shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
       <img src={image} alt={title} className="w-full h-48 object-cover" />
       <div className="p-4">
         <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full mb-2">
