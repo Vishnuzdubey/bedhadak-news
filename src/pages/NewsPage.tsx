@@ -1,6 +1,3 @@
-
-
-
 // MainNewsPage.js
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -178,28 +175,7 @@ Kanpur में एक युवक की संदिग्ध हाला�
       <main className="container mx-auto px-4 py-8">
         <div className="flex flex-col-reverse md:flex-row">
           {/* Related Posts Sidebar - will be hidden on mobile and appear at bottom on mobile */}
-          <div className="w-full md:w-1/5 mt-8 md:mt-0 md:pl-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Related Posts</h2>
-            <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:space-y-6">
-              {relatedPosts.map((post, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
-                  onClick={() => handlePostClick(post)}
-                >
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className="w-full h-36 md:h-48 object-cover rounded-t-lg"
-                  />
-                  <div className="p-2 md:p-4">
-                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-gray-800 line-clamp-2">{post.title}</h3>
-                    <p className="text-xs md:text-sm text-gray-500">{post.date}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+
 
           {/* Main Content Area */}
           <div className="w-full md:w-4/5 md:pr-8">
@@ -248,6 +224,28 @@ Kanpur में एक युवक की संदिग्ध हाला�
                 ))}
               </div>
             </section>
+          </div>
+          <div className=" hidden  md:block w-full md:w-1/5 mt-8 md:mt-0 md:pl-8 ">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Related Posts</h2>
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:space-y-6">
+              {relatedPosts.map((post, index) => (
+                <div
+                  key={index}
+                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+                  onClick={() => handlePostClick(post)}
+                >
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-36 md:h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="p-2 md:p-4">
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-gray-800 line-clamp-2">{post.title}</h3>
+                    <p className="text-xs md:text-sm text-gray-500">{post.date}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </main>
