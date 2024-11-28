@@ -111,102 +111,143 @@ Kanpur में एक युवक की संदिग्ध हाला�
 
   // Selected Related Post
   const [selectedPost, setSelectedPost] = React.useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="news-page bg-gray-50 font-sans min-h-screen">
-      <header className="bg-green-600 text-white py-4 px-6 flex justify-between items-center shadow-md">
-        <div className="header-items space-x-6 font-bold">
-          <span className="hover:text-green-200 transition-colors">Kanpur News</span>
-          <span className="hover:text-green-200 transition-colors">Police Commissioner Office</span>
-          <span className="hover:text-green-200 transition-colors">Kanpur Press Club</span>
-          <span className="hover:text-green-200 transition-colors">Kushargrapradsay</span>
-        </div>
-        <div className="share-buttons space-x-4">
-          {[faFacebook, faTwitter, faWhatsapp, faLinkedin, faTelegram].map((icon, index) => (
+      {/* Header with mobile responsiveness */}
+      <header className="bg-green-600 text-white py-4 px-4 md:px-6 shadow-md">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <span className="text-xl font-bold">Kanpur News</span>
+            {/* Mobile menu toggle */}
             <button 
-              key={index} 
-              className="text-white hover:text-green-200 focus:outline-none transition-colors"
+              className="md:hidden ml-4 focus:outline-none"
+              onClick={toggleMobileMenu}
             >
-              <FontAwesomeIcon icon={icon} size="lg" />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
             </button>
-          ))}
+          </div>
+          
+          {/* Social share buttons for desktop and mobile */}
+          <div className="hidden md:flex space-x-4">
+            {[faFacebook, faTwitter, faWhatsapp, faLinkedin, faTelegram].map((icon, index) => (
+              <button 
+                key={index} 
+                className="text-white hover:text-green-200 focus:outline-none transition-colors"
+              >
+                <FontAwesomeIcon icon={icon} size="lg" />
+              </button>
+            ))}
+          </div>
         </div>
+
+        {/* Mobile dropdown menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 space-y-2">
+            <div className="flex flex-col space-y-2">
+              <span className="hover:text-green-200 transition-colors">Police Commissioner Office</span>
+              <span className="hover:text-green-200 transition-colors">Kanpur Press Club</span>
+              <span className="hover:text-green-200 transition-colors">Kushargrapradsay</span>
+            </div>
+            <div className="flex justify-start space-x-4 mt-4">
+              {[faFacebook, faTwitter, faWhatsapp, faLinkedin, faTelegram].map((icon, index) => (
+                <button 
+                  key={index} 
+                  className="text-white hover:text-green-200 focus:outline-none transition-colors"
+                >
+                  <FontAwesomeIcon icon={icon} size="lg" />
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </header>
 
-      <main className="container mx-auto px-4 py-8 flex">
-        <div className="main-content w-4/5 pr-8">
-          {/* Main News Section */}
-          <section className="selected-news mb-8">
-            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <img 
-                src={selectedNewsArticle.image} 
-                alt={selectedNewsArticle.title} 
-                className="w-full h-[500px] object-cover"
-              />
-              <div className="p-6">
-                <h2 className="text-3xl font-bold mb-3 text-gray-800">{selectedNewsArticle.title}</h2>
-                <p className="text-gray-500 text-sm mb-4">{selectedNewsArticle.date}</p>
-                <p className="text-gray-700 leading-relaxed text-lg space-y-4">
-                  {selectedNewsArticle.content.split('\n').map((line, index) => (
-                  <React.Fragment key={index}>
-                    {line}
-                    {(index + 1) % 5 === 0 && <div></div> }
-                  </React.Fragment>
-                  ))}
-                </p>
-              </div>
-            </div>
-          </section>
-
-          {/* Latest News Section */}
-          <section className="latest-news">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Latest News</h2>
-            <div className="grid grid-cols-3 gap-6">
-              {latestNews.map((news, index) => (
+      {/* Main content with responsive layout */}
+      <main className="container mx-auto px-4 py-8">
+        <div className="flex flex-col-reverse md:flex-row">
+          {/* Related Posts Sidebar - will be hidden on mobile and appear at bottom on mobile */}
+          <div className="w-full md:w-1/5 mt-8 md:mt-0 md:pl-8">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">Related Posts</h2>
+            <div className="grid grid-cols-2 md:grid-cols-1 gap-4 md:space-y-6">
+              {relatedPosts.map((post, index) => (
                 <div
                   key={index}
                   className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+                  onClick={() => handlePostClick(post)}
                 >
-                  <img 
-                    src={news.image} 
-                    alt={news.title} 
-                    className="w-full h-48 object-cover rounded-t-lg"
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-36 md:h-48 object-cover rounded-t-lg"
                   />
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold mb-2 text-gray-800 line-clamp-2">{news.title}</h3>
-                    <p className="text-gray-500 text-sm">{news.date}</p>
+                  <div className="p-2 md:p-4">
+                    <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-gray-800 line-clamp-2">{post.title}</h3>
+                    <p className="text-xs md:text-sm text-gray-500">{post.date}</p>
                   </div>
                 </div>
               ))}
             </div>
-          </section>
-        </div>
+          </div>
 
-        {/* Related Posts Sidebar */}
-        <div className="related-posts-sidebar w-1/5">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Related Posts</h2>
-          <div className="space-y-6">
-            {relatedPosts.map((post, index) => (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
-                onClick={() => handlePostClick(post)}
-              >
-                <img
-                  src={post.image}
-                  alt={post.title}
-                  className="w-full h-48 object-cover rounded-t-lg"
+          {/* Main Content Area */}
+          <div className="w-full md:w-4/5 md:pr-8">
+            {/* Main News Section */}
+            <section className="selected-news mb-8">
+              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                <img 
+                  src={selectedNewsArticle.image} 
+                  alt={selectedNewsArticle.title} 
+                  className="w-full h-48 md:h-[500px] object-cover"
                 />
-                <div className="p-4">
-                  <h3 className="text-lg font-bold mb-2 text-gray-800 line-clamp-2">{post.title}</h3>
-                  <p className="text-gray-500 text-sm">{post.date}</p>
+                <div className="p-4 md:p-6">
+                  <h2 className="text-xl md:text-3xl font-bold mb-2 md:mb-3 text-gray-800">{selectedNewsArticle.title}</h2>
+                  <p className="text-xs md:text-sm text-gray-500 mb-2 md:mb-4">{selectedNewsArticle.date}</p>
+                  <p className="text-sm md:text-lg text-gray-700 leading-relaxed space-y-2 md:space-y-4">
+                    {selectedNewsArticle.content.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      {line}
+                      {(index + 1) % 5 === 0 && <div></div> }
+                    </React.Fragment>
+                    ))}
+                  </p>
                 </div>
               </div>
-            ))}
+            </section>
+
+            {/* Latest News Section */}
+            <section className="latest-news">
+              <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-gray-800">Latest News</h2>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                {latestNews.map((news, index) => (
+                  <div
+                    key={index}
+                    className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
+                  >
+                    <img 
+                      src={news.image} 
+                      alt={news.title} 
+                      className="w-full h-36 md:h-48 object-cover rounded-t-lg"
+                    />
+                    <div className="p-2 md:p-4">
+                      <h3 className="text-sm md:text-lg font-bold mb-1 md:mb-2 text-gray-800 line-clamp-2">{news.title}</h3>
+                      <p className="text-xs md:text-sm text-gray-500">{news.date}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
           </div>
         </div>
       </main>
