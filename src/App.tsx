@@ -7,6 +7,7 @@ import NewsSection from './components/NewsSection';
 import ShortsSection from './components/shortVideo/ShortsSection';
 import NewsPage from './pages/NewsPage';
 import Home from './pages/Home';
+import ContactUs from './pages/Contactus/ContactUs';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import PetroliumPrice from './components/LivePrice/PetroliumPrice';
@@ -52,6 +53,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Newspage" element={<NewsPage />} />
+            <Route path="/Contactus" element={<ContactUs />} />
           </Routes>
 
 

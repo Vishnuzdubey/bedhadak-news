@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sun, Moon, Bell, Search, Menu, X } from 'lucide-react';
+import { Sun, Moon, Bell, Search, Menu, X, Facebook, Youtube, Instagram, Twitter } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface TopBarProps {
@@ -18,13 +18,27 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, 
             <span>📍 नई दिल्ली</span>
             <span>🌤️ 28°C</span>
           </div>
+
           <div className="flex items-center space-x-4">
-            <button className="hover:text-red-200">साइन इन</button>
+            <Facebook size={20} className="cursor-pointer" />
+            <Youtube size={20} className="cursor-pointer" />
+            <Instagram size={20} className="cursor-pointer" />
+            <Twitter size={20} className="cursor-pointer" />
+            <button className="hover:text-red-200">विज्ञापन के लिए संपर्क करें</button>
             <button onClick={() => setIsDarkMode(!isDarkMode)}>
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <Bell size={20} className="cursor-pointer" />
           </div>
+
+
+          {/* <div className="flex items-center space-x-4">
+            <button className="hover:text-red-200">साइन इन</button>
+            <button onClick={() => setIsDarkMode(!isDarkMode)}>
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <Bell size={20} className="cursor-pointer" />
+          </div> */}
         </div>
 
         <div className="py-4">
@@ -52,6 +66,9 @@ const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, 
                 <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
                   खेल
                 </a>
+                <Link to="/ContactUs" className={`hover:text-red-200 ${location.pathname === '/ContactUs' ? 'text-red-200' : ''}`}>
+                हमारे बारे में
+                </Link>
               </div>
             </div>
             {/* Search and Menu Components */}
