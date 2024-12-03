@@ -209,7 +209,7 @@ const TopBar = () => {
           <Link to="/ContactUs" className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap ${location.pathname === '/ContactUs'
               ? 'bg-white text-red-600'
-              : 'hover:bg-white/10'} `}>विज्ञापन के लिए संपर्क करें</Link>
+              : 'bg-white text-red-600'} `}>विज्ञापन के लिए संपर्क करें</Link>
               <div className="hidden md:flex justify-center space-x-6">
           RNI - UP/UPHIN/2022/84152
           </div>
