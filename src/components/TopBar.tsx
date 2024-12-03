@@ -206,11 +206,13 @@ const TopBar = () => {
         </div>
 
         <div className="flex items-center space-x-4 mt-2 mr-10 font-bold text-sm">
-          <Link to="/ContactUs" className={`mr-3 flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
+          <Link to="/ContactUs" className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap ${location.pathname === '/ContactUs'
               ? 'bg-white text-red-600'
               : 'hover:bg-white/10'} `}>विज्ञापन के लिए संपर्क करें</Link>
+              <div className="hidden md:flex justify-center space-x-6">
           RNI - UP/UPHIN/2022/84152
+          </div>
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
@@ -226,7 +228,7 @@ const TopBar = () => {
 
 
         <div className="overflow-x-auto flex items-center space-x-4">
-          <div className="flex justify-center space-x-6">
+          <div className="hidden md:flex justify-center space-x-6">
             {[
               { Icon: Facebook, color: "text-blue-600" },
               { Icon: Twitter, color: "text-sky-400" },
