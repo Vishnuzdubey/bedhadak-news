@@ -36,7 +36,7 @@ function App() {
       <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
       <BreakingNews news={breakingNews} />
       
-      <div className="flex justify-between">
+      <div className="flex justify-center">
         {/* Left Ad Space */}
         
         <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">

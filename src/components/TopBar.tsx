@@ -216,7 +216,7 @@ const TopBar = () => {
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
-  <div className="flex items-center space-x-4">
+  <div className="flex items-center">
     <img 
       src={logo} 
       alt="logo" 

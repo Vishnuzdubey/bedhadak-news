@@ -3,7 +3,7 @@ import TeamDetails from './TeamDetails'
 
 const ContactUs = () => {
   return (
-    <div>
+    <div className=''>
       <TeamDetails />
     </div>
   )
