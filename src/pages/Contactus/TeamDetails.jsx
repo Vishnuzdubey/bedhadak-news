@@ -1,14 +1,18 @@
 import React from "react";
 import TeamCard from "./TeamCard";
+import Vimlesh from "../../assets/vimlesh.jpg";
+import Shekhar from "../../assets/Shekhar.jpg";
+import Santosh from "../../assets/Santosh.jpg";
+import Nitish from "../../assets/Nitish.jpg";
 
 const teamData = [
-  { name: "मिया वॉर्ड", role: "संस्थापक और मुख्य कार्यकारी अधिकारी", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  { name: "फीनिक्स बेकर", role: "इंजीनियरिंग प्रमुख", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  { name: "लाना स्टाइनर", role: "मुख्य संचालन अधिकारी", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  { name: "एथन पेरेज़", role: "उत्पाद प्रबंधक", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  { name: "सोफिया ली", role: "प्रधान डिज़ाइनर", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  { name: "लियम जॉनसन", role: "सॉफ्टवेयर इंजीनियर", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
-  { name: "ओलिविया स्मिथ", role: "मार्केटिंग विशेषज्ञ", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
+  { name: "Vimlesh Shukla ", role: "Founder, Director, Group Editor", img: Vimlesh },
+  { name: "Shashank Shekhar", role: "Co-founder Sub Editor", img: Shekhar },
+  { name: "Rahul Dubey ", role: "Additional Director/Manager", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
+  { name: "Santosh Paswan", role: "Senior Video Journalist", img: Santosh },
+  { name: "Nitish Sharma", role: "Program Producer", img: Nitish },
+  // { name: "लियम जॉनसन", role: "सॉफ्टवेयर इंजीनियर", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
+  // { name: "ओलिविया स्मिथ", role: "मार्केटिंग विशेषज्ञ", img: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" },
 ];
 
 

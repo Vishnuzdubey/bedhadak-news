@@ -14,17 +14,17 @@
 //     <nav className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-red-600 text-white'}`}>
 //       <div className="container mx-auto px-4">
 //         <div className="flex items-center justify-between py-2 border-b border-red-400">
-//           <div className="flex items-center space-x-4">
-//             <span>📍 नई दिल्ली</span>
-//             <span>🌤️ 28°C</span>
-//           </div>
+// <div className="flex items-center space-x-4">
+//   <span>📍 नई दिल्ली</span>
+//   <span>🌤️ 28°C</span>
+// </div>
 
 //           <div className="flex items-center space-x-4">
 //             <Facebook size={20} className="cursor-pointer" />
 //             <Youtube size={20} className="cursor-pointer" />
 //             <Instagram size={20} className="cursor-pointer" />
 //             <Twitter size={20} className="cursor-pointer" />
-//             <button className="hover:text-red-200">विज्ञापन के लिए संपर्क करें</button>
+// <button className="hover:text-red-200">विज्ञापन के लिए संपर्क करें</button>
 //             <button onClick={() => setIsDarkMode(!isDarkMode)}>
 //               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
 //             </button>
@@ -188,27 +188,41 @@ const TopBar = () => {
   ];
 
   return (
-    <nav 
+    <nav
       className={`
-        ${isDarkMode 
-          ? 'bg-gradient-to-r from-gray-900 to-gray-800' 
+        ${isDarkMode
+          ? 'bg-gradient-to-r from-gray-900 to-gray-800'
           : 'bg-gradient-to-r from-red-700 to-red-600'
         } 
         text-white shadow-2xl transition-all duration-300 ease-in-out
       `}
     >
       {/* Header */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-opacity-20 border-white">
+      <div className="flex justify-between">
+        <div className="flex items-center space-x-4 ">
+          <span className="mt-2">📍 नई दिल्ली</span>
+          <span className="mt-2">🌤️ 28°C</span>
+        </div>
+
+        <div className="flex items-center space-x-4 mt-2 mr-10 font-bold text-sm">
+          <Link to="/ContactUs" className={`mr-3 flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
+                  transition-all duration-300 ease-in-out whitespace-nowrap ${location.pathname === '/ContactUs'
+              ? 'bg-white text-red-600'
+              : 'hover:bg-white/10'} `}>विज्ञापन के लिए संपर्क करें</Link>
+          RNI - UP/UPHIN/2022/84152
+        </div>
+      </div>
+      <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
         <div className="flex items-center space-x-4">
           <h1 className="text-2xl font-extrabold tracking-wider">
             बेधड़क न्यूज़
           </h1>
         </div>
 
-        
-        
+
+
         <div className="flex items-center space-x-4">
-        <div className="flex justify-center space-x-6">
+          <div className="flex justify-center space-x-6">
             {[
               { Icon: Facebook, color: "text-blue-600" },
               { Icon: Twitter, color: "text-sky-400" },
@@ -216,8 +230,8 @@ const TopBar = () => {
               { Icon: Youtube, color: "text-green-600" },
               { Icon: Mic, color: "text-purple-500" }
             ].map(({ Icon, color }, index) => (
-              <button 
-                key={index} 
+              <button
+                key={index}
                 className={`${color} hover:opacity-80 transition-opacity`}
               >
                 <Icon size={28} />
@@ -225,20 +239,20 @@ const TopBar = () => {
             ))}
           </div>
           {/* Dark Mode Toggle */}
-          <button 
+          <button
             onClick={() => setIsDarkMode(!isDarkMode)}
             className="hover:bg-white/10 rounded-full p-2 transition-all"
           >
             {isDarkMode ? <Sun size={24} /> : <Moon size={24} />}
           </button>
-          
+
           {/* Notifications */}
           <button className="hover:bg-white/10 rounded-full p-2 transition-all">
             <Bell size={24} />
           </button>
-          
+
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="hover:bg-white/10 rounded-full p-2 transition-all"
           >
@@ -254,14 +268,14 @@ const TopBar = () => {
           {mainNavItems.map((item, index) => {
             const Icon = item.icon;
             return (
-              <Link 
-                key={index} 
-                to={item.path} 
+              <Link
+                key={index}
+                to={item.path}
                 className={`
                   flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap
-                  ${location.pathname === item.path 
-                    ? 'bg-white text-red-600' 
+                  ${location.pathname === item.path
+                    ? 'bg-white text-red-600'
                     : 'hover:bg-white/10'}
                 `}
               >
@@ -271,6 +285,10 @@ const TopBar = () => {
             );
           })}
         </div>
+        <Link to="/ContactUs" className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out whitespace-nowrap hover:bg-white/10 ml-10                   
+        ${location.pathname === '/ContactUs'
+            ? 'bg-white text-red-600'
+            : 'hover:bg-white/10'}`}><Bell p-10 size={20} />हमारे बारे में</Link>
       </div>
 
       {/* Hamburger Menu */}
@@ -295,8 +313,8 @@ const TopBar = () => {
               { Icon: Youtube, color: "text-red-600" },
               { Icon: Mic, color: "text-purple-500" }
             ].map(({ Icon, color }, index) => (
-              <button 
-                key={index} 
+              <button
+                key={index}
                 className={`${color} hover:opacity-80 transition-opacity`}
               >
                 <Icon size={28} />
@@ -307,7 +325,7 @@ const TopBar = () => {
           {/* Category Groups */}
           {categoryGroups.map((group, groupIndex) => (
             <div key={groupIndex} className="bg-gray-800 rounded-lg overflow-hidden">
-              <div 
+              <div
                 className="flex items-center justify-between px-4 py-3 
                            bg-gray-700 cursor-pointer hover:bg-gray-600"
                 onClick={() => toggleCategory(group.title)}
@@ -319,12 +337,12 @@ const TopBar = () => {
                   <ChevronDown size={20} />
                 )}
               </div>
-              
+
               {expandedCategory === group.title && (
                 <div className="px-4 py-3 space-y-2">
                   {group.items.map((item, itemIndex) => (
-                    <div 
-                      key={itemIndex} 
+                    <div
+                      key={itemIndex}
                       className="py-2 border-b border-gray-700 last:border-b-0 
                                  hover:bg-gray-700 cursor-pointer"
                     >
