@@ -1,6 +1,126 @@
-import React from 'react';
-import { Sun, Moon, Bell, Search, Menu, X, Facebook, Youtube, Instagram, Twitter } from 'lucide-react';
-import { Link } from 'react-router-dom';
+// import React from 'react';
+// import { Sun, Moon, Bell, Search, Menu, X, Facebook, Youtube, Instagram, Twitter } from 'lucide-react';
+// import { Link } from 'react-router-dom';
+
+// interface TopBarProps {
+//   isDarkMode: boolean;
+//   setIsDarkMode: (value: boolean) => void;
+//   isMenuOpen: boolean;
+//   setIsMenuOpen: (value: boolean) => void;
+// }
+
+// const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, setIsMenuOpen }) => {
+//   return (
+//     <nav className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-red-600 text-white'}`}>
+//       <div className="container mx-auto px-4">
+//         <div className="flex items-center justify-between py-2 border-b border-red-400">
+//           <div className="flex items-center space-x-4">
+//             <span>📍 नई दिल्ली</span>
+//             <span>🌤️ 28°C</span>
+//           </div>
+
+//           <div className="flex items-center space-x-4">
+//             <Facebook size={20} className="cursor-pointer" />
+//             <Youtube size={20} className="cursor-pointer" />
+//             <Instagram size={20} className="cursor-pointer" />
+//             <Twitter size={20} className="cursor-pointer" />
+//             <button className="hover:text-red-200">विज्ञापन के लिए संपर्क करें</button>
+//             <button onClick={() => setIsDarkMode(!isDarkMode)}>
+//               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+//             </button>
+//             <Bell size={20} className="cursor-pointer" />
+//           </div>
+
+
+//           {/* <div className="flex items-center space-x-4">
+//             <button className="hover:text-red-200">साइन इन</button>
+//             <button onClick={() => setIsDarkMode(!isDarkMode)}>
+//               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+//             </button>
+//             <Bell size={20} className="cursor-pointer" />
+//           </div> */}
+//         </div>
+
+//         <div className="py-4">
+//           <div className="flex items-center justify-between">
+//             <div className="flex items-center space-x-8">
+//               <Link to="/" className={`text-2xl font-bold ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+//                 बेधड़क न्यूज़
+//               </Link>
+//               <div className="hidden md:flex items-center space-x-6">
+//                 <Link to="/" className={`hover:text-red-200 ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+//                   होम
+//                 </Link>
+//                 <Link to="/Newspage" className={`hover:text-red-200 ${location.pathname === '/Newspage' ? 'text-red-200' : ''}`}>
+//                   भारत
+//                 </Link>
+//                 <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                   विश्व
+//                 </a>
+//                 <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                   व्यापार
+//                 </a>
+//                 <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                   टेक
+//                 </a>
+//                 <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                   खेल
+//                 </a>
+//                 <Link to="/ContactUs" className={`hover:text-red-200 ${location.pathname === '/ContactUs' ? 'text-red-200' : ''}`}>
+//                 हमारे बारे में
+//                 </Link>
+//               </div>
+//             </div>
+//             {/* Search and Menu Components */}
+//           </div>
+//         </div>
+
+//         {isMenuOpen && (
+//           <div className="md:hidden py-4">
+//             <div className="flex flex-col space-y-4">
+//               <Link to="/" className={`hover:text-red-200 ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+//                 होम
+//               </Link>
+//               <Link to="/Newspage" className={`hover:text-red-200 ${location.pathname === '/Newspage' ? 'text-red-200' : ''}`}>
+//                 भारत
+//               </Link>
+//               <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                 विश्व
+//               </a>
+//               <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                 व्यापार
+//               </a>
+//               <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                 टेक
+//               </a>
+//               <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+//                 खेल
+//               </a>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     </nav>
+//   );
+// };
+
+// export default TopBar;
+
+
+import React from "react";
+import {
+  Sun,
+  Moon,
+  Bell,
+  Search,
+  Menu,
+  X,
+  Facebook,
+  Youtube,
+  Instagram,
+  Twitter,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface TopBarProps {
   isDarkMode: boolean;
@@ -9,96 +129,112 @@ interface TopBarProps {
   setIsMenuOpen: (value: boolean) => void;
 }
 
-const TopBar: React.FC<TopBarProps> = ({ isDarkMode, setIsDarkMode, isMenuOpen, setIsMenuOpen }) => {
+const TopBar: React.FC<TopBarProps> = ({
+  isDarkMode,
+  setIsDarkMode,
+  isMenuOpen,
+  setIsMenuOpen,
+}) => {
   return (
-    <nav className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-red-600 text-white'}`}>
+    <nav className={`${isDarkMode ? "bg-gray-800 text-white" : "bg-red-600 text-white"} shadow-md`}>
       <div className="container mx-auto px-4">
+        {/* Top Row */}
         <div className="flex items-center justify-between py-2 border-b border-red-400">
-          <div className="flex items-center space-x-4">
+          {/* Location and Temperature */}
+          <div className="flex items-center space-x-4 text-sm">
             <span>📍 नई दिल्ली</span>
             <span>🌤️ 28°C</span>
           </div>
 
+          {/* Social Icons and Settings */}
           <div className="flex items-center space-x-4">
             <Facebook size={20} className="cursor-pointer" />
             <Youtube size={20} className="cursor-pointer" />
             <Instagram size={20} className="cursor-pointer" />
             <Twitter size={20} className="cursor-pointer" />
-            <button className="hover:text-red-200">विज्ञापन के लिए संपर्क करें</button>
+            <button className="hidden md:block hover:text-red-200">
+              विज्ञापन के लिए संपर्क करें
+            </button>
             <button onClick={() => setIsDarkMode(!isDarkMode)}>
               {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
             <Bell size={20} className="cursor-pointer" />
-          </div>
-
-
-          {/* <div className="flex items-center space-x-4">
-            <button className="hover:text-red-200">साइन इन</button>
-            <button onClick={() => setIsDarkMode(!isDarkMode)}>
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            <button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <Bell size={20} className="cursor-pointer" />
-          </div> */}
-        </div>
-
-        <div className="py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <Link to="/" className={`text-2xl font-bold ${location.pathname === '/' ? 'text-red-200' : ''}`}>
-                बेधड़क न्यूज़
-              </Link>
-              <div className="hidden md:flex items-center space-x-6">
-                <Link to="/" className={`hover:text-red-200 ${location.pathname === '/' ? 'text-red-200' : ''}`}>
-                  होम
-                </Link>
-                <Link to="/Newspage" className={`hover:text-red-200 ${location.pathname === '/Newspage' ? 'text-red-200' : ''}`}>
-                  भारत
-                </Link>
-                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
-                  विश्व
-                </a>
-                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
-                  व्यापार
-                </a>
-                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
-                  टेक
-                </a>
-                <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
-                  खेल
-                </a>
-                <Link to="/ContactUs" className={`hover:text-red-200 ${location.pathname === '/ContactUs' ? 'text-red-200' : ''}`}>
-                हमारे बारे में
-                </Link>
-              </div>
-            </div>
-            {/* Search and Menu Components */}
           </div>
         </div>
 
-        {isMenuOpen && (
-          <div className="md:hidden py-4">
-            <div className="flex flex-col space-y-4">
-              <Link to="/" className={`hover:text-red-200 ${location.pathname === '/' ? 'text-red-200' : ''}`}>
+        {/* Navigation Row */}
+        <div className={`py-4 ${isMenuOpen ? "block" : "hidden"} md:flex`}>
+          <div className="flex flex-col md:flex-row w-full ">
+            {/* Logo */}
+            <Link
+              to="/"
+              className={`text-2xl font-bold mr-20 ${
+                location.pathname === "/" ? "text-red-200" : ""
+              }`}
+            >
+              बेधड़क न्यूज़
+            </Link>
+
+            {/* Links */}
+            <div className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0 align-center items-center">
+              <Link
+                to="/"
+                className={`hover:text-red-200 ${
+                  location.pathname === "/" ? "text-red-200" : ""
+                }`}
+              >
                 होम
               </Link>
-              <Link to="/Newspage" className={`hover:text-red-200 ${location.pathname === '/Newspage' ? 'text-red-200' : ''}`}>
+              <Link
+                to="/Newspage"
+                className={`hover:text-red-200 ${
+                  location.pathname === "/Newspage" ? "text-red-200" : ""
+                }`}
+              >
                 भारत
               </Link>
-              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+              <a
+                href="#"
+                className="hover:text-red-200"
+                onClick={(e) => e.preventDefault()}
+              >
                 विश्व
               </a>
-              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+              <a
+                href="#"
+                className="hover:text-red-200"
+                onClick={(e) => e.preventDefault()}
+              >
                 व्यापार
               </a>
-              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+              <a
+                href="#"
+                className="hover:text-red-200"
+                onClick={(e) => e.preventDefault()}
+              >
                 टेक
               </a>
-              <a href="#" className="hover:text-red-200" onClick={(e) => e.preventDefault()}>
+              <a
+                href="#"
+                className="hover:text-red-200"
+                onClick={(e) => e.preventDefault()}
+              >
                 खेल
               </a>
+              <Link
+                to="/ContactUs"
+                className={`hover:text-red-200 ${
+                  location.pathname === "/ContactUs" ? "text-red-200" : ""
+                }`}
+              >
+                हमारे बारे में
+              </Link>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
