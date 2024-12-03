@@ -195,7 +195,7 @@ const TopBar = () => {
           ? 'bg-gradient-to-r from-gray-900 to-gray-800'
           : 'bg-gradient-to-r from-red-700 to-red-600'
         } 
-        text-white shadow-2xl transition-all duration-300 ease-in-out
+        text-white shadow-2xl transition-all duration-300 ease-in-out overflow-x-auto
       `}
     >
       {/* Header */}
@@ -225,7 +225,7 @@ const TopBar = () => {
 
 
 
-        <div className="flex items-center space-x-4">
+        <div className="overflow-x-auto flex items-center space-x-4">
           <div className="flex justify-center space-x-6">
             {[
               { Icon: Facebook, color: "text-blue-600" },
