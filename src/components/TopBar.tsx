@@ -205,7 +205,7 @@ const TopBar = () => {
           <span className="mt-2">🌤️ 28°C</span>
         </div>
 
-        <div className="flex items-center space-x-4 mt-2 mr-10 font-bold text-sm">
+        <div className="mr-0 md:flex items-center space-x-4 mt-2 md:mr-10 font-bold text-sm ">
           <Link to="/ContactUs" className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap ${location.pathname === '/ContactUs'
               ? 'bg-white text-red-600'
