@@ -133,6 +133,7 @@ import {
   Zap,
 } from "lucide-react";
 import { Link, useLocation } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 const TopBar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -213,11 +214,14 @@ const TopBar = () => {
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
-        <div className="flex items-center space-x-4">
-          <h1 className="text-2xl font-extrabold tracking-wider">
-            बेधड़क न्यूज़
-          </h1>
-        </div>
+  <div className="flex items-center space-x-4">
+    <img 
+      src={logo} 
+      alt="logo" 
+      className="w-24 h-auto min-w-[80px] md:w-36 lg:w-48 object-contain"
+    />
+</div>
+
 
 
 
