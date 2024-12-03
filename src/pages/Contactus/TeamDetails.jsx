@@ -1,6 +1,6 @@
 import React from "react";
 import TeamCard from "./TeamCard";
-import Vimlesh from "../../assets/vimlesh.jpg";
+import Vimlesh from "../../assets/Vimlesh.jpg";
 import Shekhar from "../../assets/Shekhar.jpg";
 import Santosh from "../../assets/Santosh.jpg";
 import Nitish from "../../assets/Nitish.jpg";
