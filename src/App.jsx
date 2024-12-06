@@ -49,11 +49,11 @@ function App() {
           </div>
         </div>
         
-  
+
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Newspage" element={<NewsPage />} />
-            <Route path="/Contactus" element={<ContactUs />} />
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/Newspage" element={<NewsPage />} />
+            <Route exact path="/Contactus" element={<ContactUs />} />
           </Routes>
 
 
