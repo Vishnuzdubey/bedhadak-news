@@ -31,7 +31,6 @@
 //             <Bell size={20} className="cursor-pointer" />
 //           </div>
 
-
 //           {/* <div className="flex items-center space-x-4">
 //             <button className="hover:text-red-200">साइन इन</button>
 //             <button onClick={() => setIsDarkMode(!isDarkMode)}>
@@ -132,8 +131,8 @@ import {
   Award,
   Zap,
 } from "lucide-react";
-import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png';
+import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 const TopBar = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -156,44 +155,34 @@ const TopBar = () => {
     { name: "राजनीति", path: "/politics", icon: TrendingUp },
     { name: "स्वास्थ्य", path: "/health", icon: Rocket },
     { name: "ऑटो", path: "/auto", icon: Gauge },
+    { name: "UP", path: "/up", icon: Gauge },
+    { name: "UK", path: "/uk", icon: Gauge },
+    { name: "Delhi", path: "/delhi", icon: Gauge },
+    { name: "Gorakhpur", path: "/gkp", icon: Gauge },
   ];
 
   const categoryGroups = [
     {
       title: "समाचार",
-      items: [
-        "ताजा समाचार",
-        "राष्ट्रीय",
-        "अंतरराष्ट्रीय",
-        "राजनीतिक"
-      ]
+      items: ["ताजा समाचार", "राष्ट्रीय", "अंतरराष्ट्रीय", "राजनीतिक"],
     },
     {
       title: "मनोरंजन",
-      items: [
-        "बॉलीवुड",
-        "टीवी",
-        "वेब सीरीज़",
-        "सेलेब न्यूज़"
-      ]
+      items: ["बॉलीवुड", "टीवी", "वेब सीरीज़", "सेलेब न्यूज़"],
     },
     {
       title: "खेल",
-      items: [
-        "क्रिकेट",
-        "फुटबॉल",
-        "टेनिस",
-        "अन्य खेल"
-      ]
-    }
+      items: ["क्रिकेट", "फुटबॉल", "टेनिस", "अन्य खेल"],
+    },
   ];
 
   return (
     <nav
       className={`
-        ${isDarkMode
-          ? 'bg-gradient-to-r from-gray-900 to-gray-800'
-          : 'bg-gradient-to-r from-red-700 to-red-600'
+        ${
+          isDarkMode
+            ? "bg-gradient-to-r from-gray-900 to-gray-800"
+            : "bg-gradient-to-r from-red-700 to-red-600"
         } 
         text-white shadow-2xl transition-all duration-300 ease-in-out overflow-x-auto
       `}
@@ -206,42 +195,69 @@ const TopBar = () => {
         </div>
 
         <div className="mr-0 md:flex items-center space-x-4 mt-2 md:mr-10 font-bold text-sm ">
-          <Link to="/ContactUs" className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
-                  transition-all duration-300 ease-in-out whitespace-nowrap ${location.pathname === '/ContactUs'
-              ? 'bg-white text-red-600'
-              : 'bg-white text-red-600'} `}>विज्ञापन के लिए संपर्क करें</Link>
-              <div className="hidden md:flex justify-center space-x-6">
-          RNI - UP/UPHIN/2022/84152
+          <Link
+            to="/ContactUs"
+            className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
+                  transition-all duration-300 ease-in-out whitespace-nowrap ${
+                    location.pathname === "/ContactUs"
+                      ? "bg-white text-red-600"
+                      : "bg-white text-red-600"
+                  } `}
+          >
+            विज्ञापन के लिए संपर्क करें
+          </Link>
+          <div className="hidden md:flex justify-center space-x-6">
+            RNI - UP/UPHIN/2022/84152
           </div>
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
-  <div className="flex items-center">
-    <img 
-      src={logo} 
-      alt="logo" 
-      className="w-24 h-auto min-w-[80px] md:w-36 lg:w-48 object-contain"
-    />
-</div>
-
-
-
+        <div className="flex items-center">
+          <img
+            src={logo}
+            alt="logo"
+            className="w-24 h-auto min-w-[80px] md:w-36 lg:w-48 object-contain"
+          />
+        </div>
 
         <div className="overflow-x-auto flex items-center space-x-4">
           <div className="hidden md:flex justify-center space-x-6">
             {[
-              { Icon: Facebook, color: "text-blue-600" },
-              { Icon: Twitter, color: "text-sky-400" },
-              { Icon: Instagram, color: "text-pink-500" },
-              { Icon: Youtube, color: "text-green-600" },
-              { Icon: Mic, color: "text-purple-500" }
-            ].map(({ Icon, color }, index) => (
-              <button
+              {
+                Icon: Facebook,
+                color: "text-blue-600",
+                link: "https://www.facebook.com/profile.php?id=61562438033847&mibextid=ZbWKwL",
+              },
+              {
+                Icon: Twitter,
+                color: "text-sky-400",
+                link: "https://x.com/BedhadakKhabar?t=Kt3XT6T6cItQM6L1bpVRVw&s=08",
+              },
+              {
+                Icon: Instagram,
+                color: "text-pink-500",
+                link: "https://www.instagram.com/bedhadakkhabar?igsh=ZWRwcHkyYm56ZGdu",
+              },
+              {
+                Icon: Youtube,
+                color: "text-green-600",
+                link: "https://youtube.com/@bedhadakkhabar?si=QSPPzqQN3nuHVgXV",
+              },
+              // {
+              //   Icon: Mic,
+              //   color: "text-purple-500",
+              //   link: "https://www.whatsapp.com",
+              // },
+            ].map(({ Icon, color, link }, index) => (
+              <a
                 key={index}
+                href={link}
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`${color} hover:opacity-80 transition-opacity`}
               >
                 <Icon size={28} />
-              </button>
+              </a>
             ))}
           </div>
           {/* Dark Mode Toggle */}
@@ -267,7 +283,6 @@ const TopBar = () => {
         </div>
       </div>
 
-
       {/* Horizontally Scrollable Navigation */}
       <div className="overflow-x-auto bg-black/20 py-2 px-2 flex align-center">
         <div className="flex space-x-4 min-w-max ">
@@ -280,9 +295,11 @@ const TopBar = () => {
                 className={`
                   flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap
-                  ${location.pathname === item.path
-                    ? 'bg-white text-red-600'
-                    : 'hover:bg-white/10'}
+                  ${
+                    location.pathname === item.path
+                      ? "bg-white text-red-600"
+                      : "hover:bg-white/10"
+                  }
                 `}
               >
                 <Icon size={18} />
@@ -291,10 +308,18 @@ const TopBar = () => {
             );
           })}
         </div>
-        <Link to="/ContactUs" className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out whitespace-nowrap hover:bg-white/10 ml-10                   
-        ${location.pathname === '/ContactUs'
-            ? 'bg-white text-red-600'
-            : 'hover:bg-white/10'}`}><Bell p-10 size={20} />हमारे बारे में</Link>
+        <Link
+          to="/ContactUs"
+          className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out whitespace-nowrap hover:bg-white/10 ml-10                   
+        ${
+          location.pathname === "/ContactUs"
+            ? "bg-white text-red-600"
+            : "hover:bg-white/10"
+        }`}
+        >
+          <Bell p-10 size={20} />
+          हमारे बारे में
+        </Link>
       </div>
 
       {/* Hamburger Menu */}
@@ -317,7 +342,7 @@ const TopBar = () => {
               { Icon: Twitter, color: "text-sky-400" },
               { Icon: Instagram, color: "text-pink-500" },
               { Icon: Youtube, color: "text-red-600" },
-              { Icon: Mic, color: "text-purple-500" }
+              { Icon: Mic, color: "text-purple-500" },
             ].map(({ Icon, color }, index) => (
               <button
                 key={index}
@@ -330,7 +355,10 @@ const TopBar = () => {
 
           {/* Category Groups */}
           {categoryGroups.map((group, groupIndex) => (
-            <div key={groupIndex} className="bg-gray-800 rounded-lg overflow-hidden">
+            <div
+              key={groupIndex}
+              className="bg-gray-800 rounded-lg overflow-hidden"
+            >
               <div
                 className="flex items-center justify-between px-4 py-3 
                            bg-gray-700 cursor-pointer hover:bg-gray-600"
