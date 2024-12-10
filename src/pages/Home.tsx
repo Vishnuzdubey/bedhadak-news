@@ -230,6 +230,7 @@ const Home = () => {
   }, []);
 
   const handleNewsCardClick = (articleId: number) => {
+    console.log(articleId);
     navigate(`/NewsPage/${articleId}`);
   };
 

@@ -3,25 +3,26 @@ import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 
 interface NewsCardProps {
+  id:number;
   title: string;
   description: string;
   image: string;
   category: string;
   isDarkMode: boolean;
+  onClick?: () => void;
 }
-
-const NewsCard: React.FC<NewsCardProps> = ({ title, description, image, category, isDarkMode }) => {
+const NewsCard: React.FC<NewsCardProps> = ({id, title, description, image, category, isDarkMode,onClick }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
     console.log('Clicked');
-    navigate('/NewsPage');
+    // navigate('/NewsPage');
   };
 
   return (
     <div 
       className={`rounded-lg overflow-hidden shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}
-      onClick={handleClick}
+      onClick={onClick}
       style={{ cursor: 'pointer' }}
     >
       <img src={image} alt={title} className="w-full h-48 object-cover" />

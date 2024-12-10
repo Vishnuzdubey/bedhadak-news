@@ -14,7 +14,7 @@ import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
 import CategoryNews from './components/CategoryNews/CategoryNews';
 import NewsContainer from './components/CategoryNews/NewsContainer';
-
+import {Advertisement} from './pages/Advertisement'
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -53,22 +53,23 @@ function App() {
 
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route exact path="/Newspage" element={<NewsPage />} />
+            <Route exact path="/Newspage/:id" element={<NewsPage />} />  
             <Route exact path="/Contactus" element={<ContactUs />} />
             <Route exact path="/india" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/world" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/business" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/tech" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/sports" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/entertainment" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/politics" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/health" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/auto" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/up" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/uk" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/delhi" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/gkp" element={<NewsContainer categoryId={4} />} />
-            <Route exact path="/up" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/world" element={<NewsContainer categoryId={5} />} />
+            <Route exact path="/business" element={<NewsContainer categoryId={6} />} />
+            <Route exact path="/tech" element={<NewsContainer categoryId={1} />} />
+            <Route exact path="/sports" element={<NewsContainer categoryId={3} />} />
+            <Route exact path="/entertainment" element={<NewsContainer categoryId={2} />} />
+            <Route exact path="/politics" element={<NewsContainer categoryId={7} />} />
+            <Route exact path="/health" element={<NewsContainer categoryId={8} />} />
+            <Route exact path="/auto" element={<NewsContainer categoryId={9} />} />
+            {/* <Route exact path="/up" element={<NewsContainer categoryId={4} />} /> */}
+            <Route exact path="/uk" element={<NewsContainer location="Utarkhand" />} />
+            <Route exact path="/delhi" element={<NewsContainer location="Delhi" />} />
+            <Route exact path="/gkp" element={<NewsContainer location="Gorakhpur" />} />
+            <Route exact path="/up" element={<NewsContainer location="Uttar Pradesh" />} />
+            <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} />
           </Routes>
 
 

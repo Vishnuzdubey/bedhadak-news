@@ -196,10 +196,10 @@ const TopBar = () => {
 
         <div className="mr-0 md:flex items-center space-x-4 mt-2 md:mr-10 font-bold text-sm ">
           <Link
-            to="/ContactUs"
+            to="/Advertisement"
             className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap ${
-                    location.pathname === "/ContactUs"
+                    location.pathname === "/Advertisement"
                       ? "bg-white text-red-600"
                       : "bg-white text-red-600"
                   } `}
