@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
 import CategoryNews from './components/CategoryNews/CategoryNews';
+import NewsContainer from './components/CategoryNews/NewsContainer';
 
 
 function App() {
@@ -54,6 +55,20 @@ function App() {
             <Route exact path="/" element={<Home />} />
             <Route exact path="/Newspage" element={<NewsPage />} />
             <Route exact path="/Contactus" element={<ContactUs />} />
+            <Route exact path="/india" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/world" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/business" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/tech" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/sports" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/entertainment" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/politics" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/health" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/auto" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/up" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/uk" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/delhi" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/gkp" element={<NewsContainer categoryId={4} />} />
+            <Route exact path="/up" element={<NewsContainer categoryId={4} />} />
           </Routes>
 
 

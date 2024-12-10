@@ -143,6 +143,7 @@ import NewsSection from '../components/NewsSection'
 import ShortsSection from '../components/shortVideo/ShortsSection'
 import CategoryNews from '../components/CategoryNews/CategoryNews'
 import { useNavigate } from 'react-router-dom'
+import NewsContainer from '../components/CategoryNews/NewsContainer'
 import axios from 'axios'
 
 interface NewsItem {
@@ -288,6 +289,7 @@ const Home = () => {
         ))}
 
 <CategoryNews categoryId="4" />
+<NewsContainer categoryId="4" />;
         
 
         <div className="w-full h-32 bg-red-600 rounded-lg mb-12 flex items-center justify-center text-white">

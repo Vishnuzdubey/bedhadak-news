@@ -53,6 +53,7 @@
 
 // export default CategoryNews
 
+
 import React, { useState, useEffect } from 'react';
 import { Camera, Image as ImageIcon } from 'lucide-react';
 
@@ -114,7 +115,7 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
         setNewsData({
           title: validArticles[0].category?.name || 'News',
           mainNews: validArticles[0],
-          sideNews: validArticles.slice(1, 5) // Increased to show more side news
+          sideNews: validArticles.slice(1, 3) // Limit to 2 side news articles
         });
         
         setLoading(false);
@@ -175,22 +176,22 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
       </div>
 
       {/* News Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 ">
         {/* Main News Card */}
         <div className="lg:col-span-3 bg-white shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:shadow-2xl">
           {newsData.mainNews.image_url ? (
             <img 
               src={newsData.mainNews.image_url} 
               alt={newsData.mainNews.title}
-              className="w-full h-80 lg:h-96 object-cover"
+              className="w-full h-[400px] object-cover"
               onError={(e) => {
                 const imgElement = e.target as HTMLImageElement;
                 imgElement.onerror = null;
-                imgElement.src = '/api/placeholder/1200/600';
+                imgElement.src = '/api/placeholder/400/400';
               }}
             />
           ) : (
-            <PlaceholderImage className="w-full h-80 lg:h-96" />
+            <PlaceholderImage className="w-full h-[400px]" />
           )}
           <div className="p-6">
             <div className="flex justify-between items-center mb-2">
@@ -228,7 +229,7 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
                     onError={(e) => {
                       const imgElement = e.target as HTMLImageElement;
                       imgElement.onerror = null;
-                      imgElement.src = '/api/placeholder/400/250';
+                      imgElement.src = '/api/placeholder/400/400';
                     }}
                   />
                 ) : (
