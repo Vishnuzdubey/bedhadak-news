@@ -282,9 +282,9 @@ const NewsContainer = ({ categoryId }) => {
   );
 
   return (
-    <div className="news-container mx-auto px-4 py-8">
+    <div className="news-container mx-auto px-4 py-8 ">
       {createNewsContainers().map((container, containerIndex) => (
-        <div key={containerIndex} className="mb-12 w-full">
+        <div key={containerIndex} className="mb-12 ">
           {/* Large Horizontal Card */}
           <div className="mb-6">
             <LargeHorizontalNewsCard article={container[0]} />
