@@ -183,7 +183,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   const cities = [
-    'Uttar Pradesh', 
+    'uttar pardesh', 
     'Gorakhpur', 
     'Delhi', 
     'Bihar', 
@@ -193,12 +193,16 @@ const Home = () => {
   useEffect(() => {
     const fetchBreakingNews = async () => {
       try {
-        const response = await axios.get('https://bedharak.vercel.app/api/v1/articles');
+        const response = await axios.get('https://bedharak.vercel.app/api/v1/articles?page=1&pageSize=10000');
+        
+        // Filter breaking news and sort by most recent date
         const breakingNewsItems = response.data
           .filter((news: NewsItem) => news.breaking)
           .sort((a: NewsItem, b: NewsItem) => 
+            // Use getTime() to compare dates directly
             new Date(b.date).getTime() - new Date(a.date).getTime()
           )
+          // Optionally limit to top 3 most recent breaking news
           .slice(0, 3);
         
         setBreakingNews(breakingNewsItems);
@@ -206,7 +210,6 @@ const Home = () => {
         console.error('Error fetching breaking news:', error);
       }
     };
-
     const fetchCityNews = async () => {
       try {
         const cityNewsPromises = cities.map(async (city) => {
@@ -263,8 +266,8 @@ const Home = () => {
         </section>
 
         {/* Other Sections */}
-        <NewsSection />
-        <ShortsSection />
+        {/* <NewsSection /> */}
+        {/* <ShortsSection /> */}
 
         {/* City News Sections */}
         {Object.entries(cityNews).map(([city, newsItems]) => (

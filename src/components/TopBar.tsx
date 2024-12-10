@@ -159,6 +159,7 @@ const TopBar = () => {
     { name: "UK", path: "/uk", icon: Gauge },
     { name: "Delhi", path: "/delhi", icon: Gauge },
     { name: "Gorakhpur", path: "/gkp", icon: Gauge },
+    { name: "E-paper", path: "/epaper", icon: Gauge },
   ];
 
   const categoryGroups = [

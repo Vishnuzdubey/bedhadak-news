@@ -68,7 +68,7 @@ function App() {
             <Route exact path="/uk" element={<NewsContainer location="Utarkhand" />} />
             <Route exact path="/delhi" element={<NewsContainer location="Delhi" />} />
             <Route exact path="/gkp" element={<NewsContainer location="Gorakhpur" />} />
-            <Route exact path="/up" element={<NewsContainer location="Uttar Pradesh" />} />
+            <Route exact path="/up" element={<NewsContainer location="uttar pardesh" />} />
             <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} />
           </Routes>
 
