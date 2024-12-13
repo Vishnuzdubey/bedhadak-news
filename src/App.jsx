@@ -21,21 +21,21 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const breakingNews = [
-    "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
-    "ब्रेकिंग: तटीय क्षेत्र में 6.2 तीव्रता का भूकंप",
-    "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता",
-    "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
-    "ब्रेकिंग: तटीय क्षेत्र में 6.2 तीव्रता का भूकंप",
-    "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता",
-  ];
+  // const breakingNews = [
+  //   "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
+  //   "ब्रेकिंग: तटीय क्षेत्र में 6.2 तीव्रता का भूकंप",
+  //   "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता",
+  //   "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
+  //   "ब्रेकिंग: तटीय क्षेत्र में 6.2 तीव्रता का भूकंप",
+  //   "राष्ट्रीय टीम ने अंतर्राष्ट्रीय खेल प्रतियोगिता में स्वर्ण पदक जीता",
+  // ];
 
 
   return (
     <Router>
     <div className={`min-h-screen overflow-x-auto ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      <BreakingNews news={breakingNews} />
+      <BreakingNews/>
       
       <div className="flex justify-center">
         {/* Left Ad Space */}
