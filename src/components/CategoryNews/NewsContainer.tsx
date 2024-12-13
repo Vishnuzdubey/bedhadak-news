@@ -174,7 +174,6 @@
 
 // export default NewsContainer;
 
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -279,12 +278,7 @@ const NewsContainer = ({ categoryId, location }) => {
         if (categoryId) {
           response = await axios.get(`https://bedharak.vercel.app/api/v1/articles/category/${categoryId}`);
         } else if (location) {
-          response = await axios.get(`https://bedharak.vercel.app/api/v1/articles/location/${location}`, {
-            params: {
-              page: 1,
-              pageSize: 10000
-            }
-          });
+          response = await axios.get(`https://bedharak.vercel.app/api/v1/articles/location/${location}`);
         } else {
           throw new Error('Either categoryId or location must be provided');
         }
@@ -303,29 +297,6 @@ const NewsContainer = ({ categoryId, location }) => {
     }
   }, [categoryId, location]);
 
-  // Group articles into containers of 9 (1 large + 8 small)
-  const createNewsContainers = () => {
-    const containers = [];
-    let currentContainer = [];
-
-    articles.forEach((article, index) => {
-      // Start a new container every 9 articles
-      if (index % 9 === 0 && index > 0) {
-        containers.push(currentContainer);
-        currentContainer = [];
-      }
-
-      currentContainer.push(article);
-    });
-
-    // Add the last container if not empty
-    if (currentContainer.length > 0) {
-      containers.push(currentContainer);
-    }
-
-    return containers;
-  };
-
   if (loading) return (
     <div className="text-center py-10">
       <div className="animate-pulse text-xl text-gray-500">Loading...</div>
@@ -340,26 +311,27 @@ const NewsContainer = ({ categoryId, location }) => {
 
   return (
     <div className="news-container mx-auto px-4 py-8 w-[100%]">
-      {createNewsContainers().map((container, containerIndex) => (
-        <div key={containerIndex} className="mb-12 ">
-          {/* Large Horizontal Card */}
-          <div className="mb-6">
-            <LargeHorizontalNewsCard article={container[0]} />
-          </div>
+      {articles.length > 0 ? (
+        <div>
+          {/* First article as Large Horizontal Card */}
+          {articles[0] && (
+            <div className="mb-6">
+              <LargeHorizontalNewsCard article={articles[0]} />
+            </div>
+          )}
 
-          {/* Small Cards in Two Rows */}
+          {/* Remaining articles as Small Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {container.slice(1, 4).map((article) => (
-              <SmallNewsCard key={article.id} article={article} />
-            ))}
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            {container.slice(4, 7).map((article) => (
+            {articles.slice(1).map((article) => (
               <SmallNewsCard key={article.id} article={article} />
             ))}
           </div>
         </div>
-      ))}
+      ) : (
+        <div className="text-center py-10 text-gray-500">
+          No articles found.
+        </div>
+      )}
     </div>
   );
 };

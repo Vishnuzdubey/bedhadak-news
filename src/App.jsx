@@ -15,6 +15,7 @@ import MetalPrice from './components/LivePrice/MetalPrice';
 import CategoryNews from './components/CategoryNews/CategoryNews';
 import NewsContainer from './components/CategoryNews/NewsContainer';
 import {Advertisement} from './pages/Advertisement'
+import EPaperPage from './pages/EPaperPage';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -70,6 +71,7 @@ function App() {
             <Route exact path="/gkp" element={<NewsContainer location="Gorakhpur" />} />
             <Route exact path="/up" element={<NewsContainer location="uttar pardesh" />} />
             <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} />
+            <Route exact path="/EPaper" element={<EPaperPage></EPaperPage>} />
           </Routes>
 
 

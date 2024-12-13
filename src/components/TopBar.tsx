@@ -160,7 +160,7 @@ const TopBar = () => {
     { name: "UK", path: "/uk", icon: Gauge },
     { name: "Delhi", path: "/delhi", icon: Gauge },
     { name: "Gorakhpur", path: "/gkp", icon: Gauge },
-    { name: "E-paper", path: "/epaper", icon: Gauge },
+    { name: "E-paper", path: "/EPaper", icon: Gauge },
   ];
 
   const categoryGroups = [
