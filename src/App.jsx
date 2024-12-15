@@ -66,7 +66,7 @@ function App() {
             <Route exact path="/health" element={<NewsContainer categoryId={8} />} />
             <Route exact path="/auto" element={<NewsContainer categoryId={9} />} />
             {/* <Route exact path="/up" element={<NewsContainer categoryId={4} />} /> */}
-            <Route exact path="/uk" element={<NewsContainer location="Utarkhand" />} />
+            <Route exact path="/uk" element={<NewsContainer location="utrakhand" />} />
             <Route exact path="/delhi" element={<NewsContainer location="Delhi" />} />
             <Route exact path="/gkp" element={<NewsContainer location="Gorakhpur" />} />
             <Route exact path="/up" element={<NewsContainer location="uttar pardesh" />} />
@@ -115,9 +115,9 @@ function App() {
             <div>
               <h3 className="text-xl font-bold mb-4">संपर्क</h3>
               <ul>
-                <li className="mb-2">ईमेल: contact@bedhadak.news</li>
-                <li className="mb-2">फोन: +91 123-456-7890</li>
-                <li className="mb-2">पता: न्यूज़ स्ट्रीट, मीडिया सिटी</li>
+                <li className="mb-2">ईमेल: bedhadakkhabar@gmail.com</li>
+                <li className="mb-2">फोन: +91 9336265008</li>
+                <li className="mb-2">पता: Dubey Marg Near Telephone Exchange Colony, Gorakhpur 273001</li>
               </ul>
             </div>
           </div>

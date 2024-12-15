@@ -179,23 +179,15 @@ export const Advertisement = () => {
           <div className="text-center">
             <h2 className="text-xl font-semibold text-gray-700 mb-3">संपर्क जानकारी</h2>
             <div className="space-y-2 text-gray-600">
-              <p>📞 हेल्पलाइन: +91-1234567890</p>
-              <p>✉️ ईमेल: contact@newschannel.com</p>
-              <p>📍 पता: समाचार भवन, मीडिया सेंटर, नई दिल्ली</p>
+              <p>📞 हेल्पलाइन: +91-9336265008 , +91 9889820114</p>
+              <p>✉️ ईमेल: bedhadakkhabar@gmail.com</p>
+              <p>📍 पता: Dubey Marg Near Telephone Exchange Colony, Gorakhpur 273001</p>
             </div>
           </div>
 
           {/* Google Maps Embed */}
           <div className="w-full h-64 rounded-lg overflow-hidden shadow-md">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3505.4157136503124!2d77.20401367455764!3d28.61425048337672!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5dddd5b861%3A0x4ced4c27c54bc057!2sParliament%20House!5e0!3m2!1sen!2sin!4v1689765432109!5m2!1sen!2sin"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3563.2173133120364!2d83.36651287543341!3d26.737440476752113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDQ0JzE0LjgiTiA4M8KwMjInMDguNyJF!5e0!3m2!1sen!2sin!4v1734264806773!5m2!1sen!2sin" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
       </div>

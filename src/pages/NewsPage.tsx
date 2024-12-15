@@ -473,6 +473,26 @@ const NewsPage: React.FC = () => {
     }
   };
 
+  const renderArticleContent = (content: string | undefined) => {
+    if (!content) return null;
+
+    // Replace multiple newline characters and ensure consistent paragraph breaks
+    const formattedContent = content
+      .replace(/\n\n+/g, '\n\n') // Normalize multiple newlines
+      .split('\n\n')
+      .map((paragraph, index) => (
+        <p 
+          key={index} 
+          className="mb-4 text-sm md:text-lg text-gray-700 leading-relaxed"
+        >
+          {paragraph.trim()}
+        </p>
+      ));
+
+    return formattedContent;
+  };
+
+
   // Loading Component
   const LoadingSpinner = () => (
     <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
@@ -611,10 +631,9 @@ const NewsPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-                  <div 
-                    className="text-sm md:text-lg text-gray-700 leading-relaxed space-y-2 md:space-y-4"
-                    dangerouslySetInnerHTML={{ __html: selectedNewsArticle?.content }}
-                  />
+              <div className="content-wrapper space-y-2 md:space-y-4">
+                {renderArticleContent(selectedNewsArticle?.content)}
+              </div>
                 </div>
               </div>
             </section>
