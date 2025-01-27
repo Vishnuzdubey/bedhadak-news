@@ -52,7 +52,7 @@ export default function App() {
       {/* <midimage></midimage> */}
 
 
-      <div className="h-40 w-full md: h-full overflow-hidden bg-gray-100">
+      <div className="h-30 w-full md: h-full overflow-hidden bg-gray-100">
       {allAds.length > 0 ? (
         <img 
           src={allAds[1].image_url} 

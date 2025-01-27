@@ -296,9 +296,9 @@ const Home = () => {
 {/* <NewsContainer categoryId="4" />; */}
         
 
-        <div className="w-full h-32 bg-red-600 rounded-lg mb-12 flex items-center justify-center text-white">
+        {/* <div className="w-full h-32 bg-red-600 rounded-lg mb-12 flex items-center justify-center text-white">
           <p className="text-xl font-bold">विज्ञापन स्थान</p>
-        </div>
+        </div> */}
       </main>
     </div>
   )
