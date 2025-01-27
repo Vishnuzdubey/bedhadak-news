@@ -293,7 +293,7 @@ const Home = () => {
         ))}
 
 <CategoryNews categoryId="4" />
-<NewsContainer categoryId="4" />;
+{/* <NewsContainer categoryId="4" />; */}
         
 
         <div className="w-full h-32 bg-red-600 rounded-lg mb-12 flex items-center justify-center text-white">

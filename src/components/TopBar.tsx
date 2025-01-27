@@ -131,7 +131,7 @@ import {
   Award,
   Zap,
 } from "lucide-react";
-import LocationWeather from "../components/LocationWeather";
+// import LocationWeather from "../components/LocationWeather";
 import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/logo.png";
 
@@ -209,7 +209,7 @@ const TopBar = () => {
           <span className="mt-2">📍 नई दिल्ली</span>
           <span className="mt-2">🌤️ 28°C</span>
         </div> */}
-         <LocationWeather />
+         {/* <LocationWeather /> */}
 
         <div className="mr-0 md:flex items-center space-x-4 mt-2 md:mr-10 font-bold text-sm ">
           <Link

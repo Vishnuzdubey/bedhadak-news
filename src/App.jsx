@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Sun, Moon, Bell, Search, Menu, X, Heart, MessageCircle, Share2 } from 'lucide-react';
 import TopBar from './components/TopBar';
 import BreakingNews from './components/BreakingNews';
@@ -14,13 +14,24 @@ import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
 import CategoryNews from './components/CategoryNews/CategoryNews';
 import NewsContainer from './components/CategoryNews/NewsContainer';
-import {Advertisement} from './pages/Advertisement'
+//import {leftAdvertisement} from './pages/Advertisement'
 import EPaperPage from './pages/EPaperPage';
 
-function App() {
+export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [allAds , setAllAds] = useState([]);
+  useEffect(() => {
+    const fetchAds = async () => {
+      const response = await fetch("http://localhost:3000/api/v1/advertisement");
+      const data = await response.json();
+      setAllAds(data);
+    }
+    fetchAds();
+  }, [])
+  console.log("addddsssssss ")
+  console.log(allAds)
 
   // const breakingNews = [
   //   "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
@@ -46,7 +57,8 @@ function App() {
         <MetalPrice/>
           <div className="sticky top-4">
             <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
-              <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
+            {(allAds.length > 0) ? <img src={allAds[0].image_url} alt="Advertisement" /> : <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p>}
+              {/* <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p> */}
             </div>
           </div>
         </div>
@@ -70,7 +82,7 @@ function App() {
             <Route exact path="/delhi" element={<NewsContainer location="Delhi" />} />
             <Route exact path="/gkp" element={<NewsContainer location="Gorakhpur" />} />
             <Route exact path="/up" element={<NewsContainer location="uttar pardesh" />} />
-            <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} />
+            {/* <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} /> */}
             <Route exact path="/EPaper" element={<EPaperPage></EPaperPage>} />
           </Routes>
 
@@ -81,7 +93,9 @@ function App() {
         <PetroliumPrice/>
           <div className="sticky top-4">
             <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
-              <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
+            {/* <img src={allAds[0].image_url} alt="Advertisement" /> */}
+            {(allAds.length > 0) ? <img src={allAds[2].image_url} alt="Advertisement" /> : <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p>}
+            {/* <p className="text-gray-600 font-bold">विज्ञापन स्थान mm</p> */}
             </div>
           </div>
         </div>
@@ -128,4 +142,4 @@ function App() {
   );
 }
 
-export default App;
+// export default App;
