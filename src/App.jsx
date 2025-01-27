@@ -14,8 +14,9 @@ import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
 import CategoryNews from './components/CategoryNews/CategoryNews';
 import NewsContainer from './components/CategoryNews/NewsContainer';
-//import {leftAdvertisement} from './pages/Advertisement'
+import {Advertisement} from './pages/Advertisement'
 import EPaperPage from './pages/EPaperPage';
+import {midimage} from './components/midimage';
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -47,6 +48,28 @@ export default function App() {
     <Router>
     <div className={`min-h-screen overflow-x-auto ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+      
+      {/* <midimage></midimage> */}
+
+
+      <div className="h-40 w-full md: h-full overflow-hidden bg-gray-100">
+      {allAds.length > 0 ? (
+        <img 
+          src={allAds[1].image_url} 
+          alt="Advertisement"
+          className="w-full h-full object-cover object-center"
+        />
+      ) : (
+        <p className="text-gray-600 font-bold h-full flex items-center justify-center">
+          विज्ञापन स्थान
+        </p>
+      )}
+    </div>
+
+
+
+
+
       <BreakingNews/>
       
       <div className="flex justify-center">
@@ -82,7 +105,7 @@ export default function App() {
             <Route exact path="/delhi" element={<NewsContainer location="Delhi" />} />
             <Route exact path="/gkp" element={<NewsContainer location="Gorakhpur" />} />
             <Route exact path="/up" element={<NewsContainer location="uttar pardesh" />} />
-            {/* <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} /> */}
+            <Route exact path="/Advertisement" element={<Advertisement></Advertisement>} />
             <Route exact path="/EPaper" element={<EPaperPage></EPaperPage>} />
           </Routes>
 
