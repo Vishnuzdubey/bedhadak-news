@@ -24,7 +24,7 @@ export default function App() {
   const [allAds , setAllAds] = useState([]);
   useEffect(() => {
     const fetchAds = async () => {
-      const response = await fetch("http://localhost:3000/api/v1/advertisement");
+      const response = await fetch("https://bedharak.vercel.app/api/v1/advertisement");
       const data = await response.json();
       setAllAds(data);
     }
