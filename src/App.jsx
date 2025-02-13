@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Bell, Search, Menu, X, Heart, MessageCircle, Share2 } from 'lucide-react';
 import TopBar from './components/TopBar';
 import BreakingNews from './components/BreakingNews';
@@ -14,25 +14,99 @@ import PetroliumPrice from './components/LivePrice/PetroliumPrice';
 import MetalPrice from './components/LivePrice/MetalPrice';
 import CategoryNews from './components/CategoryNews/CategoryNews';
 import NewsContainer from './components/CategoryNews/NewsContainer';
-import {Advertisement} from './pages/Advertisement'
+import { Advertisement } from './pages/Advertisement'
 import EPaperPage from './pages/EPaperPage';
-import {midimage} from './components/midimage';
+import { midimage } from './components/midimage';
+
+
+const LeftAdSlider = ({ allAds }) => {
+  const leftAds = allAds.filter((ad) => ad.type === "left");
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (leftAds.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % leftAds.length);
+      }, 10000); // Change image every 10 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [leftAds.length]);
+
+  if (leftAds.length === 0) {
+    return (
+      <div className="h-[600px] bg-white-300 rounded-lg flex items-center justify-center">
+        <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-[600px] bg-white-300 rounded-lg flex items-center justify-center">
+      <a href={leftAds[currentIndex].link} >
+        <img
+          src={leftAds[currentIndex].image_url}
+          alt="Advertisement"
+          className="w-full h-full object-cover"
+        />
+      </a>
+    </div>
+  );
+};
+
+const AdSlider = ({ allAds, type }) => {
+  const filteredAds = allAds.filter((ad) => ad.type === type);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (filteredAds.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % filteredAds.length);
+      }, 10000); // Change image every 10 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [filteredAds.length]);
+
+  if (filteredAds.length === 0) {
+    return (
+      <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
+        <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="h-[600px] bg-white-300 rounded-lg flex items-center justify-center">
+      <a href={filteredAds[currentIndex].link} target="_blank" rel="noopener noreferrer">
+        <img
+          src={filteredAds[currentIndex].image_url}
+          alt="Advertisement"
+          className="w-full h-full object-cover"
+        />
+      </a>
+    </div>
+  );
+};
+
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [allAds , setAllAds] = useState([]);
+  const [allAds, setAllAds] = useState([]);
   useEffect(() => {
     const fetchAds = async () => {
       const response = await fetch("https://bedharak.vercel.app/api/v1/advertisement");
       const data = await response.json();
+      console.log("ttttttttttttttttttttttttttt", data);
       setAllAds(data);
     }
     fetchAds();
   }, [])
   console.log("addddsssssss ")
   console.log(allAds)
+
 
   // const breakingNews = [
   //   "प्रधानमंत्री ने शिक्षा क्षेत्र में बड़े बदलाव की घोषणा की",
@@ -46,50 +120,61 @@ export default function App() {
 
   return (
     <Router>
-    <div className={`min-h-screen overflow-x-auto ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
-      <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-      
-      {/* <midimage></midimage> */}
+      <div className={`min-h-screen overflow-x-auto ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+        <TopBar isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+
+        {/* <midimage></midimage> */}
 
 
-      <div className="h-30 w-full md: h-full overflow-hidden bg-gray-100">
-      {allAds.length > 0 ? (
-        <img 
-          src={allAds[1].image_url} 
-          alt="Advertisement"
-          className="w-full h-full object-cover object-center"
-        />
-      ) : (
-        <p className="text-gray-600 font-bold h-full flex items-center justify-center">
-          विज्ञापन स्थान
-        </p>
-      )}
-    </div>
+        <div className="h-30 w-full md:h-full overflow-hidden bg-gray-100">
+          {allAds.length > 0 ? (
+            (() => {
+              const middleAds = allAds.filter(ad => ad.type === "middle");
+              if (middleAds.length > 0) {
+                const latestAd = middleAds.sort((a, b) => b.id - a.id)[0]; // Sorting by ID assuming higher ID is the latest
+                return (
+                  <img
+                    src={latestAd.image_url}
+                    alt="Advertisement"
+                    className="w-full h-full object-cover object-center"
+                  />
+                );
+              }
+              return (
+                <p className="text-gray-600 font-bold h-full flex items-center justify-center">
+                  विज्ञापन स्थान
+                </p>
+              );
+            })()
+          ) : (
+            <p className="text-gray-600 font-bold h-full flex items-center justify-center">
+              विज्ञापन स्थान
+            </p>
+          )}
+        </div>
 
 
 
 
 
-      <BreakingNews/>
-      
-      <div className="flex justify-center">
-        {/* Left Ad Space */}
-        
-        <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
-        {/* live Metals price  */}
-        <MetalPrice/>
-          <div className="sticky top-4">
-            <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
-            {(allAds.length > 0) ? <img src={allAds[0].image_url} alt="Advertisement" /> : <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p>}
-              {/* <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p> */}
+
+        <BreakingNews />
+
+        <div className="flex justify-center">
+          {/* Left Ad Space */}
+
+          <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
+            {/* Live Metals Price */}
+            <MetalPrice />
+            <div className="sticky top-4">
+              <LeftAdSlider allAds={allAds} />
             </div>
           </div>
-        </div>
-        
+
 
           <Routes>
             <Route exact path="/" element={<Home />} />
-            <Route exact path="/Newspage/:id" element={<NewsPage />} />  
+            <Route exact path="/Newspage/:id" element={<NewsPage />} />
             <Route exact path="/Contactus" element={<ContactUs />} />
             <Route exact path="/india" element={<NewsContainer categoryId={4} />} />
             <Route exact path="/world" element={<NewsContainer categoryId={5} />} />
@@ -110,57 +195,54 @@ export default function App() {
           </Routes>
 
 
-{/* Right Ad Space */}
-        <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
-          {/* live petrol price  */}
-        <PetroliumPrice/>
-          <div className="sticky top-4">
-            <div className="h-[600px] bg-gray-300 rounded-lg flex items-center justify-center">
-            {/* <img src={allAds[0].image_url} alt="Advertisement" /> */}
-            {(allAds.length > 0) ? <img src={allAds[2].image_url} alt="Advertisement" /> : <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p>}
-            {/* <p className="text-gray-600 font-bold">विज्ञापन स्थान mm</p> */}
+          {/* Right Ad Space */}
+          <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
+            {/* live petrol price  */}
+            <PetroliumPrice />
+            <div className="sticky top-4">
+              <AdSlider allAds={allAds} type="right" />
             </div>
           </div>
+
         </div>
+
+        <footer className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-gray-800 text-white'} py-8`}>
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+              <div>
+                <h3 className="text-xl font-bold mb-4">हमारे बारे में</h3>
+                <p>बेधड़क न्यूज़ - निष्पक्ष समाचार का विश्वसनीय स्रोत</p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-4">श्रेणियाँ</h3>
+                <ul>
+                  <li className="mb-2">राजनीति</li>
+                  <li className="mb-2">व्यापार</li>
+                  <li className="mb-2">तकनीक</li>
+                  <li className="mb-2">मनोरंजन</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-4">फॉलो करें</h3>
+                <ul>
+                  <li className="mb-2">फेसबुक</li>
+                  <li className="mb-2">ट्विटर</li>
+                  <li className="mb-2">इंस्टाग्राम</li>
+                  <li className="mb-2">लिंक्डइन</li>
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold mb-4">संपर्क</h3>
+                <ul>
+                  <li className="mb-2">ईमेल: bedhadakkhabar@gmail.com</li>
+                  <li className="mb-2">फोन: +91 9336265008</li>
+                  <li className="mb-2">पता: Dubey Marg Near Telephone Exchange Colony, Gorakhpur 273001</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
       </div>
-     
-      <footer className={`${isDarkMode ? 'bg-gray-800 text-white' : 'bg-gray-800 text-white'} py-8`}>
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-xl font-bold mb-4">हमारे बारे में</h3>
-              <p>बेधड़क न्यूज़ - निष्पक्ष समाचार का विश्वसनीय स्रोत</p>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">श्रेणियाँ</h3>
-              <ul>
-                <li className="mb-2">राजनीति</li>
-                <li className="mb-2">व्यापार</li>
-                <li className="mb-2">तकनीक</li>
-                <li className="mb-2">मनोरंजन</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">फॉलो करें</h3>
-              <ul>
-                <li className="mb-2">फेसबुक</li>
-                <li className="mb-2">ट्विटर</li>
-                <li className="mb-2">इंस्टाग्राम</li>
-                <li className="mb-2">लिंक्डइन</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold mb-4">संपर्क</h3>
-              <ul>
-                <li className="mb-2">ईमेल: bedhadakkhabar@gmail.com</li>
-                <li className="mb-2">फोन: +91 9336265008</li>
-                <li className="mb-2">पता: Dubey Marg Near Telephone Exchange Colony, Gorakhpur 273001</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
     </Router>
   );
 }

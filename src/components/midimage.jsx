@@ -15,8 +15,8 @@ export const midimage = () => {
 
   return (
     <div>
-            <div>Gand mara gyi</div>
-                  {(allAds.length > 0) ? <img src={allAds[1].image_url} alt="Advertisement" /> : <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p>}
+            {/* <div>Gand mara gyi</div> */}
+                  {(allAds.length > 0) ? <img src={allAds[2].image_url} alt="Advertisement" /> : <p className="text-gray-600 font-bold">विज्ञापन स्थान  </p>}
     </div>
   )
 }
