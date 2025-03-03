@@ -61,7 +61,7 @@ interface Article {
   id: number;
   title: string;
   content?: string;
-  image_url?: string | null;
+  image_1_url?: string | null;
   date: string;
   category?: { name: string };
 }
@@ -87,6 +87,56 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
+  const SkeletonCard = () => (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+      {/* Skeleton image */}
+      <div className="bg-slate-200 h-48 w-full"></div>
+      
+      {/* Skeleton content */}
+      <div className="p-4">
+        {/* Category pill */}
+        <div className="bg-slate-200 h-5 w-20 rounded-full mb-3"></div>
+        
+        {/* Title */}
+        <div className="bg-slate-200 h-6 w-full rounded mb-2"></div>
+        <div className="bg-slate-200 h-6 w-3/4 rounded mb-4"></div>
+        
+        {/* Description */}
+        <div className="bg-slate-200 h-4 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-4 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-4 w-2/3 rounded mb-4"></div>
+        
+        {/* Author and date */}
+        <div className="flex items-center mt-4">
+          <div className="bg-slate-200 h-8 w-8 rounded-full mr-3"></div>
+          <div className="bg-slate-200 h-4 w-32 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Featured/hero article skeleton
+  const HeroSkeleton = () => (
+    <div className="col-span-12 lg:col-span-8 bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+      <div className="bg-slate-200 h-64 lg:h-80 w-full"></div>
+      <div className="p-6">
+        <div className="bg-slate-200 h-5 w-24 rounded-full mb-4"></div>
+        <div className="bg-slate-200 h-8 w-full rounded mb-2"></div>
+        <div className="bg-slate-200 h-8 w-4/5 rounded mb-4"></div>
+        
+        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-5 w-3/4 rounded mb-4"></div>
+        
+        <div className="flex items-center mt-6">
+          <div className="bg-slate-200 h-10 w-10 rounded-full mr-3"></div>
+          <div className="bg-slate-200 h-5 w-40 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+
   useEffect(() => {
     const fetchCategoryNews = async () => {
       try {
@@ -104,7 +154,7 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
           .filter(article => 
             article && 
             article.title && 
-            (article.image_url || article.id)
+            (article.image_1_url || article.id)
           )
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         
@@ -148,9 +198,46 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
   };
 
   if (loading) return (
-    <div className="flex justify-center items-center h-64">
-      <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-    </div>
+    <div className="bg-slate-50 min-h-screen">
+    {/* Header skeleton */}
+    <header className="bg-white shadow-sm py-4 px-6 mb-6">
+      <div className="flex justify-between items-center max-w-7xl mx-auto">
+        <div className="bg-slate-200 h-8 w-32 rounded animate-pulse"></div>
+        <div className="hidden md:flex space-x-4">
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+        </div>
+        <div className="bg-slate-200 h-8 w-8 rounded-full animate-pulse"></div>
+      </div>
+    </header>
+    
+    {/* Main content */}
+    <main className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* Breaking news bar */}
+      <div className="bg-slate-200 h-10 w-full rounded mb-6 animate-pulse"></div>
+      
+      {/* Grid layout for articles */}
+      <div className="grid grid-cols-12 gap-6">
+        {/* Hero article */}
+        <HeroSkeleton />
+        
+        {/* Sidebar featured */}
+        <div className="col-span-12 lg:col-span-4 space-y-6">
+          <SkeletonCard />
+          <div className="bg-slate-200 h-32 w-full rounded animate-pulse"></div>
+        </div>
+        
+        {/* Regular article cards - 3x2 grid */}
+        {[...Array(6)].map((_, index) => (
+          <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4">
+            <SkeletonCard />
+          </div>
+        ))}
+      </div>
+    </main>
+  </div>
   );
 
   if (error) return (
@@ -179,9 +266,9 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 ">
         {/* Main News Card */}
         <div className="lg:col-span-3 bg-white shadow-lg rounded-xl overflow-hidden transform transition duration-300 hover:shadow-2xl">
-          {newsData.mainNews.image_url ? (
+          {newsData.mainNews.image_1_url ? (
             <img 
-              src={newsData.mainNews.image_url} 
+              src={newsData.mainNews.image_1_url} 
               alt={newsData.mainNews.title}
               className="w-full h-[400px] object-cover"
               onError={(e) => {
@@ -221,9 +308,9 @@ const CategoryNews: React.FC<CategoryNewsProps> = ({ categoryId }) => {
                 key={news.id} 
                 className="bg-white shadow-md rounded-lg overflow-hidden transform transition duration-300 hover:shadow-lg hover:-translate-y-2"
               >
-                {news.image_url ? (
+                {news.image_1_url ? (
                   <img 
-                    src={news.image_url} 
+                    src={news.image_1_url} 
                     alt={news.title}
                     className="w-full h-40 object-cover"
                     onError={(e) => {

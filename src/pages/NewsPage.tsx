@@ -24,8 +24,17 @@ interface NewsArticle {
   location: string;
   date: string;
   category: string;
-  image_url: string;
+  // New image schema
+  image_1_url?: string;
+  image_2_url?: string;
+  image_3_url?: string;
+  image_url?: string; // For backward compatibility
   content: string;
+  category_id?: number;
+  approved?: boolean;
+  approvedBy?: string | null;
+  views?: number | null;
+  breaking?: boolean;
 }
 
 interface LatestNewsArticle {
@@ -33,7 +42,8 @@ interface LatestNewsArticle {
   _id: string;
   title: string;
   date: string;
-  image_url: string;
+  image_url?: string;
+  image_1_url?: string; // Support new schema
 }
 
 interface SocialLinks {
@@ -151,11 +161,24 @@ const NewsPage: React.FC = () => {
       return 'Invalid Date';
     }
   };
+  
+  // Get primary image for display
+  const getPrimaryImage = (article: NewsArticle | null): string => {
+    if (!article) return dummyImage;
+    return article.image_1_url || article.image_url || dummyImage;
+  };
+  
+  // Get thumbnail image for latest news
+  const getThumbnailImage = (article: LatestNewsArticle): string => {
+    return article.image_1_url || article.image_url || dummyImage;
+  };
 
-  const renderArticleContent = (content: string | undefined) => {
-    if (!content) return null;
+  const renderArticleContent = (content: string | undefined, article: NewsArticle | null) => {
+    if (!content || !article) return null;
   
     const paragraphs = content.split('\n\n');
+    let secondImageInserted = false;
+    let thirdImageInserted = false;
     
     return paragraphs.map((paragraph, index) => {
       // YouTube link detection (multiple formats)
@@ -166,7 +189,7 @@ const NewsPage: React.FC = () => {
       if (youtubeMatch) {
         const videoId = youtubeMatch[1];
         return (
-          <div key={index} className="mb-6">
+          <div key={`yt-${index}`} className="mb-6">
             <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
               <iframe
                 src={`https://www.youtube.com/embed/${videoId}`}
@@ -183,39 +206,15 @@ const NewsPage: React.FC = () => {
         );
       }
   
-      // Twitter link detection with improved regex
-      // const twitterMatch = paragraph.match(
-      //   /https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/
-      // );
-      
-  
-      // if (twitterMatch) {
-      //   return (
-      //     <div key={index} className="mb-6">
-      //       <blockquote className="twitter-tweet" data-media-max-width="560">
-      //         <a href={twitterMatch[0]}></a>
-      //       </blockquote>
-      //       {/* Load Twitter widgets script dynamically */}
-      //       <script 
-      //         async 
-      //         src="https://platform.twitter.com/widgets.js" 
-      //         charSet="utf-8"
-      //       />
-      //       <p className="mt-4 text-sm md:text-base text-gray-700">
-      //         {paragraph.replace(twitterMatch[0], '').trim()}
-      //       </p>
-      //     </div>
-      //   );
-      // }
+      // Twitter embed
       const twitterMatch = paragraph.match(
         /https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/
       );
       
       if (twitterMatch) {
-        const tweetId = twitterMatch[3]; // Extracted Tweet ID
-      
+        const tweetId = twitterMatch[3];
         return (
-          <div key={index} className="mb-6">
+          <div key={`tweet-${index}`} className="mb-6">
             <TwitterTweetEmbed tweetId={tweetId} />
             <p className="mt-4 text-sm md:text-base text-gray-700">
               {paragraph.replace(twitterMatch[0], '').trim()}
@@ -223,11 +222,54 @@ const NewsPage: React.FC = () => {
           </div>
         );
       }
+      
+      // Insert second image after 5 paragraphs if not already inserted
+      if (index === 5 && !secondImageInserted && article.image_2_url) {
+        secondImageInserted = true;
+        return (
+          <div key={`p2-img-${index}`} className="mb-6">
+            <img
+              src={article.image_2_url}
+              alt={`${article.title} - additional image`}
+              className="w-full rounded-lg my-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            <p className="mt-2 text-sm md:text-base text-gray-700">
+              {paragraph.trim()}
+            </p>
+          </div>
+        );
+      }
+      
+      // Insert third image after 8 paragraphs if not already inserted
+      if (index === 8 && !thirdImageInserted && article.image_3_url) {
+        thirdImageInserted = true;
+        return (
+          <div key={`p3-img-${index}`} className="mb-6">
+            <img
+              src={article.image_3_url}
+              alt={`${article.title} - additional image`}
+              className="w-full rounded-lg my-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            <p className="mt-2 text-sm md:text-base text-gray-700">
+              {paragraph.trim()}
+            </p>
+          </div>
+        );
+      }
+      
       // Check if paragraph contains an image link
       const imageMatch = paragraph.match(/https?:\/\/\S+\.(?:jpg|jpeg|gif|png|webp)/i);
       if (imageMatch) {
         return (
-          <div key={index} className="mb-6">
+          <div key={`img-${index}`} className="mb-6">
             <img
               src={imageMatch[0]}
               alt="Content"
@@ -248,7 +290,7 @@ const NewsPage: React.FC = () => {
       const urlMatch = paragraph.match(/(https?:\/\/[^\s]+)/g);
       if (urlMatch) {
         return (
-          <div key={index} className="mb-4">
+          <div key={`url-${index}`} className="mb-4">
             <p className="text-sm md:text-base text-gray-700">
               {paragraph.replace(urlMatch[0], '').trim()}
             </p>
@@ -267,7 +309,7 @@ const NewsPage: React.FC = () => {
       // Regular paragraph
       return (
         <p
-          key={index}
+          key={`p-${index}`}
           className="mb-4 text-sm md:text-lg text-gray-700 leading-relaxed"
         >
           {paragraph.trim()}
@@ -276,18 +318,30 @@ const NewsPage: React.FC = () => {
     });
   };
 
-  // Loading Component
-  const LoadingSpinner = () => (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gray-50">
-      <div className="relative">
-        <div className="animate-spin rounded-full h-24 w-24 md:h-32 md:w-32 border-[3px] border-t-red-600 border-r-red-400 border-b-red-600 border-l-red-400 shadow-lg"></div>
-        <div className="absolute inset-0 rounded-full animate-pulse bg-red-50 opacity-20"></div>
-      </div>
-      <div className="mt-4 text-red-600 font-medium animate-pulse">
-        Loading News...
+
+  // Featured/hero article skeleton
+// Featured/hero article skeleton
+const HeroSkeleton = () => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 w-full min-h-screen">
+    <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden animate-pulse mx-4">
+      <div className="bg-slate-200 h-64 lg:h-80 w-full"></div>
+      <div className="p-6">
+        <div className="bg-slate-200 h-5 w-24 rounded-full mb-4"></div>
+        <div className="bg-slate-200 h-8 w-full rounded mb-2"></div>
+        <div className="bg-slate-200 h-8 w-4/5 rounded mb-4"></div>
+        
+        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-5 w-3/4 rounded mb-4"></div>
+        
+        <div className="flex items-center mt-6">
+          <div className="bg-slate-200 h-10 w-10 rounded-full mr-3"></div>
+          <div className="bg-slate-200 h-5 w-40 rounded"></div>
+        </div>
       </div>
     </div>
-  );
+  </div>
+);
 
   // Error Component
   const ErrorDisplay = () => (
@@ -307,7 +361,7 @@ const NewsPage: React.FC = () => {
   );
 
   // Render loading state
-  if (loading) return <LoadingSpinner />;
+  if (loading) return <HeroSkeleton />;
 
   // Render error state
   if (error) return <ErrorDisplay />;
@@ -354,7 +408,7 @@ const NewsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Mobile dropdown menu remains the same */}
+        {/* Mobile dropdown menu */}
         {isMobileMenuOpen && (
           <div className="md:hidden mt-4 space-y-2">
             <div className="flex justify-start space-x-4 mt-4">
@@ -379,25 +433,24 @@ const NewsPage: React.FC = () => {
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        {/* <section className="selected-news mb-8">
-        <div className="flex flex-col-reverse md:flex-row">
-          <div className="w-full md:w-4/5 md:pr-8">
-            {/* Main News Section */}
-            <section className="selected-news mb-8">
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img 
-                  src={selectedNewsArticle?.image_url || dummyImage} 
-                  alt={selectedNewsArticle?.title || 'News Image'} 
-                  className="w-full h-48 md:h-[500px] object-cover"
-                  onError={(e) => { e.target.src = dummyImage; }}
-                />
-                <div className="p-4 md:p-6">
-                  <h2 className="text-xl md:text-3xl font-bold mb-2 md:mb-3 text-gray-800">
-                    {selectedNewsArticle?.title}
-                  </h2>
+        {/* Main News Section */}
+        <section className="selected-news mb-8">
+          <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img 
+              src={getPrimaryImage(selectedNewsArticle)} 
+              alt={selectedNewsArticle?.title || 'News Image'} 
+              className="w-full h-48 md:h-[500px] object-cover"
+              onError={(e) => { 
+                const target = e.target as HTMLImageElement;
+                target.src = dummyImage; 
+              }}
+            />
+            <div className="p-4 md:p-6">
+              <h2 className="text-xl md:text-3xl font-bold mb-2 md:mb-3 text-gray-800">
+                {selectedNewsArticle?.title}
+              </h2>
 
-
-              <div className="flex items-center space-x-4 mb-4 text-gray-600">
+              <div className="flex flex-wrap items-center gap-4 mb-4 text-gray-600">
                 {selectedNewsArticle?.writer_name && (
                   <div className="flex items-center space-x-2">
                     <FontAwesomeIcon icon={solidUser} className="text-green-600" />
@@ -413,13 +466,35 @@ const NewsPage: React.FC = () => {
                     {formatDate(selectedNewsArticle?.date)}
                   </span>
                 </div>
+                
+                {selectedNewsArticle?.location && (
+                  <div className="flex items-center space-x-2">
+                    <FontAwesomeIcon icon={solidMapMarker} className="text-green-600" />
+                    <span className="text-sm md:text-base">
+                      {selectedNewsArticle.location}
+                    </span>
+                  </div>
+                )}
+                
+                {selectedNewsArticle?.category && (
+                  <div className="flex items-center space-x-2">
+                    <FontAwesomeIcon icon={solidTag} className="text-green-600" />
+                    <span className="text-sm md:text-base">
+                      {/* Access the name property of the category object */}
+                      {typeof selectedNewsArticle.category === 'object' 
+                        ? selectedNewsArticle.category.name 
+                        : selectedNewsArticle.category}
+                    </span>
+                  </div>
+                )}
               </div>
+              
               <div className="content-wrapper space-y-2 md:space-y-4">
-                {renderArticleContent(selectedNewsArticle?.content)}
+                {renderArticleContent(selectedNewsArticle?.content, selectedNewsArticle)}
               </div>
-                </div>
-              </div>
-            </section>
+            </div>
+          </div>
+        </section>
 
         {/* Latest News Section */}
         {latestNews.length > 0 && (
@@ -427,7 +502,7 @@ const NewsPage: React.FC = () => {
             <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-gray-800">
               Latest News
             </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
               {latestNews.map((news) => (
                 <div
                   key={news.id || news._id}
@@ -435,7 +510,7 @@ const NewsPage: React.FC = () => {
                   onClick={() => window.location.href = `/NewsPage/${news.id || news._id}`}
                 >
                   <img 
-                    src={news.image_url || dummyImage} 
+                    src={getThumbnailImage(news)} 
                     alt={news.title || 'News Image'} 
                     className="w-full h-36 md:h-48 object-cover rounded-t-lg"
                     onError={(e) => { 

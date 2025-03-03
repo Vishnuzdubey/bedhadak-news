@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, MessageCircle, Share2 } from 'lucide-react';
 
 interface NewsCardProps {
-  id:number;
+  id: number;
   title: string;
   description: string;
   image: string;
@@ -11,12 +11,24 @@ interface NewsCardProps {
   isDarkMode: boolean;
   onClick?: () => void;
 }
-const NewsCard: React.FC<NewsCardProps> = ({id, title, description, image, category, isDarkMode,onClick }) => {
-  const navigate = useNavigate();
 
-  const handleClick = () => {
-    console.log('Clicked');
-    // navigate('/NewsPage');
+const NewsCard: React.FC<NewsCardProps> = ({ id, title, description, image, category, isDarkMode, onClick }) => {
+  const navigate = useNavigate();
+  const [showShare, setShowShare] = useState(false);
+
+  // Generate the news URL based on the id.
+  const newsLink = `${window.location.origin}/NewsPage/${id}`;
+
+  const handleShareClick = (option: string) => {
+    if (option === 'facebook') {
+      window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(newsLink)}`, '_blank');
+    } else if (option === 'whatsapp') {
+      window.open(`https://wa.me/?text=${encodeURIComponent(newsLink)}`, '_blank');
+    } else if (option === 'copy') {
+      navigator.clipboard.writeText(newsLink);
+      alert('Link copied to clipboard');
+    }
+    setShowShare(false); // Hide popup after the action
   };
 
   return (
@@ -26,7 +38,7 @@ const NewsCard: React.FC<NewsCardProps> = ({id, title, description, image, categ
       style={{ cursor: 'pointer' }}
     >
       <img src={image} alt={title} className="w-full h-48 object-cover" />
-      <div className="p-4">
+      <div className="p-4 relative">
         <span className="inline-block bg-red-600 text-white text-xs px-2 py-1 rounded-full mb-2">
           {category}
         </span>
@@ -47,9 +59,48 @@ const NewsCard: React.FC<NewsCardProps> = ({id, title, description, image, categ
               <span>12</span>
             </button>
           </div>
-          <button className="text-gray-500 hover:text-red-600">
-            <Share2 size={18} />
-          </button>
+          <div className="relative">
+            <button 
+              className="text-gray-500 hover:text-red-600" 
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowShare(!showShare);
+              }}
+            >
+              <Share2 size={18} />
+            </button>
+            {showShare && (
+              <div className="absolute right-0 mb-2 w-40 bg-white border rounded shadow-lg z-10">
+                <button 
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleShareClick('facebook');
+                  }}
+                >
+                  Facebook
+                </button>
+                <button 
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleShareClick('whatsapp');
+                  }}
+                >
+                  WhatsApp
+                </button>
+                <button 
+                  className="w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleShareClick('copy');
+                  }}
+                >
+                  Copy Link
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ interface NewsItem {
   title: string;
   location: string;
   content: string;
-  image_url: string | null;
+  image_1_url: string | null;
   writer_name: string;
   date: string;
   breaking: boolean;
@@ -42,6 +42,56 @@ const Home = () => {
   const [breakingNews, setBreakingNews] = useState<NewsItem[]>([]);
   const [cityNews, setCityNews] = useState<{ [key: string]: NewsItem[] }>({});
   const [loading, setLoading] = useState(true);
+
+
+  const SkeletonCard = () => (
+    <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+      {/* Skeleton image */}
+      <div className="bg-slate-200 h-48 w-full"></div>
+      
+      {/* Skeleton content */}
+      <div className="p-4">
+        {/* Category pill */}
+        <div className="bg-slate-200 h-5 w-20 rounded-full mb-3"></div>
+        
+        {/* Title */}
+        <div className="bg-slate-200 h-6 w-full rounded mb-2"></div>
+        <div className="bg-slate-200 h-6 w-3/4 rounded mb-4"></div>
+        
+        {/* Description */}
+        <div className="bg-slate-200 h-4 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-4 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-4 w-2/3 rounded mb-4"></div>
+        
+        {/* Author and date */}
+        <div className="flex items-center mt-4">
+          <div className="bg-slate-200 h-8 w-8 rounded-full mr-3"></div>
+          <div className="bg-slate-200 h-4 w-32 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Featured/hero article skeleton
+  const HeroSkeleton = () => (
+    <div className="col-span-12 lg:col-span-8 bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
+      <div className="bg-slate-200 h-64 lg:h-80 w-full"></div>
+      <div className="p-6">
+        <div className="bg-slate-200 h-5 w-24 rounded-full mb-4"></div>
+        <div className="bg-slate-200 h-8 w-full rounded mb-2"></div>
+        <div className="bg-slate-200 h-8 w-4/5 rounded mb-4"></div>
+        
+        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+        <div className="bg-slate-200 h-5 w-3/4 rounded mb-4"></div>
+        
+        <div className="flex items-center mt-6">
+          <div className="bg-slate-200 h-10 w-10 rounded-full mr-3"></div>
+          <div className="bg-slate-200 h-5 w-40 rounded"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   const cities = [
     'uttar pardesh', 
@@ -99,7 +149,46 @@ const Home = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    <div className="bg-slate-50 min-h-screen">
+    {/* Header skeleton */}
+    <header className="bg-white shadow-sm py-4 px-6 mb-6">
+      <div className="flex justify-between items-center max-w-7xl mx-auto">
+        <div className="bg-slate-200 h-8 w-32 rounded animate-pulse"></div>
+        <div className="hidden md:flex space-x-4">
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+        </div>
+        <div className="bg-slate-200 h-8 w-8 rounded-full animate-pulse"></div>
+      </div>
+    </header>
+    
+    {/* Main content */}
+    <main className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* Breaking news bar */}
+      <div className="bg-slate-200 h-10 w-full rounded mb-6 animate-pulse"></div>
+      
+      {/* Grid layout for articles */}
+      <div className="grid grid-cols-12 gap-6">
+        {/* Hero article */}
+        <HeroSkeleton />
+        
+        {/* Sidebar featured */}
+        <div className="col-span-12 lg:col-span-4 space-y-6">
+          <SkeletonCard />
+          <div className="bg-slate-200 h-32 w-full rounded animate-pulse"></div>
+        </div>
+        
+        {/* Regular article cards - 3x2 grid */}
+        {[...Array(6)].map((_, index) => (
+          <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4">
+            <SkeletonCard />
+          </div>
+        ))}
+      </div>
+    </main>
+  </div>
   }
 
   return (
@@ -116,7 +205,7 @@ const Home = () => {
               key={news.id} 
               title={news.title}
               description={news.content.split(' ').slice(0, 10).join(' ') + '...'}
-              image={news.image_url || 'https://via.placeholder.com/300x200'}
+              image={news.image_1_url || 'https://via.placeholder.com/300x200'}
               category={news.location}
               id={news.id}
               isDarkMode={isDarkMode}
@@ -142,7 +231,7 @@ const Home = () => {
                   key={news.id} 
                   title={news.title}
                   description={news.content.split(' ').slice(0, 8).join(' ') + '...'}
-                  image={news.image_url || 'https://via.placeholder.com/300x200'}
+                  image={news.image_1_url || 'https://via.placeholder.com/300x200'}
                   category={news.location}
                   id={news.id}
                   isDarkMode={isDarkMode}
