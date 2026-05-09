@@ -122,12 +122,12 @@ const TopBar = () => {
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
-      <div className="flex items-center p-0 m-0 ">
+      <div className="flex items-center p-0 m-0">
   <Link to="/">
     <img
       src={logo}
       alt="logo"
-      className="h-20 w-auto md:h-35 lg:h-40  object-contain"
+      className="h-28 w-auto md:h-36 lg:h-44 object-contain"
     />
   </Link>
 </div>
