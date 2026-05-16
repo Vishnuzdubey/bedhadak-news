@@ -173,6 +173,14 @@ const NewsPage: React.FC = () => {
     return article.image_1_url || article.image_url || dummyImage;
   };
 
+  // Get gallery images for article (excludes hero primary image)
+  const getGalleryImages = (article: NewsArticle | null): string[] => {
+    if (!article) return [];
+    const imgs = [article.image_1_url, article.image_2_url, article.image_3_url, article.image_url].filter(Boolean) as string[];
+    const primary = getPrimaryImage(article);
+    return imgs.filter((src) => src !== primary);
+  };
+
   const renderArticleContent = (content: string | undefined, article: NewsArticle | null) => {
     if (!content || !article) return null;
   
@@ -371,6 +379,8 @@ const HeroSkeleton = () => (
     return <ErrorDisplay />;
   }
 
+  const galleryImages = getGalleryImages(selectedNewsArticle);
+
   return (
     <div className="news-page bg-gray-50 font-sans min-h-screen w-full">
       <header className="bg-green-600 text-white py-4 px-4 md:px-6 shadow-md">
@@ -489,6 +499,24 @@ const HeroSkeleton = () => (
                 )}
               </div>
               
+              {galleryImages.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
+                  {galleryImages.map((src, index) => (
+                    <img
+                      key={`gallery-${index}`}
+                      src={src}
+                      alt={`${selectedNewsArticle?.title || 'News Image'} - ${index + 1}`}
+                      className="w-full h-40 md:h-48 object-cover rounded-lg cursor-pointer"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                      onClick={() => window.open(src, '_blank')}
+                    />
+                  ))}
+                </div>
+              )}
+
               <div className="content-wrapper space-y-2 md:space-y-4">
                 {renderArticleContent(selectedNewsArticle?.content, selectedNewsArticle)}
               </div>
