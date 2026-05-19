@@ -89,6 +89,50 @@ const AdSlider = ({ allAds, type }) => {
   );
 };
 
+const MiddleAdSlider = ({ allAds }) => {
+  const middleAds = allAds.filter((ad) => ad.type === "middle");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+
+  useEffect(() => {
+    if (middleAds.length > 1 && !isPaused) {
+      const interval = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % middleAds.length);
+      }, 5000); // Change image every 5 seconds
+
+      return () => clearInterval(interval);
+    }
+  }, [middleAds.length, isPaused]);
+
+  const heightClass = "h-36 md:h-48"; // smaller fixed height
+
+  if (middleAds.length === 0) {
+    return (
+      <div className={`${heightClass} flex items-center justify-center`}>
+        <p className="text-gray-600 font-bold">विज्ञापन स्थान</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`${heightClass} overflow-hidden`} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
+      <div className="flex transition-transform duration-700" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
+        {middleAds.map((ad, idx) => (
+          <div key={ad.id ?? idx} className="w-full flex-shrink-0">
+            <a href={ad.link} target="_blank" rel="noopener noreferrer">
+              <img
+                src={ad.image_url}
+                alt={ad.title || "Advertisement"}
+                className="w-full h-full object-cover object-center"
+              />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 export default function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -126,31 +170,8 @@ export default function App() {
         {/* <midimage></midimage> */}
 
 
-        <div className="h-30 w-full md:h-full overflow-hidden bg-gray-100">
-          {allAds.length > 0 ? (
-            (() => {
-              const middleAds = allAds.filter(ad => ad.type === "middle");
-              if (middleAds.length > 0) {
-                const latestAd = middleAds.sort((a, b) => b.id - a.id)[0]; // Sorting by ID assuming higher ID is the latest
-                return (
-                  <img
-                    src={latestAd.image_url}
-                    alt="Advertisement"
-                    className="w-full h-full object-cover object-center"
-                  />
-                );
-              }
-              return (
-                <p className="text-gray-600 font-bold h-full flex items-center justify-center">
-                  विज्ञापन स्थान
-                </p>
-              );
-            })()
-          ) : (
-            <p className="text-gray-600 font-bold h-full flex items-center justify-center">
-              विज्ञापन स्थान
-            </p>
-          )}
+        <div className="w-full overflow-hidden bg-gray-100">
+          <MiddleAdSlider allAds={allAds} />
         </div>
 
 
@@ -165,7 +186,7 @@ export default function App() {
 
           <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
             {/* Live Metals Price */}
-            <MetalPrice />
+            {/* <MetalPrice /> */}
             <div className="sticky top-4">
               <LeftAdSlider allAds={allAds} />
             </div>
@@ -198,7 +219,7 @@ export default function App() {
           {/* Right Ad Space */}
           <div className="hidden lg:block w-1/6 min-h-screen bg-gray-200 p-4">
             {/* live petrol price  */}
-            <PetroliumPrice />
+            {/* <PetroliumPrice /> */}
             <div className="sticky top-4">
               <AdSlider allAds={allAds} type="right" />
             </div>

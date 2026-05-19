@@ -4,15 +4,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TwitterTweetEmbed } from 'react-twitter-embed';
 
-import { 
-  faFacebook, faTwitter, faWhatsapp, 
-  faLinkedin, faTelegram 
+import {
+  faFacebook, faTwitter, faWhatsapp,
+  faLinkedin, faTelegram
 } from '@fortawesome/free-brands-svg-icons';
-import { 
-  faMapMarkerAlt as solidMapMarker, 
-  faUser as solidUser, 
-  faCalendar as solidCalendar, 
-  faTag as solidTag 
+import {
+  faMapMarkerAlt as solidMapMarker,
+  faUser as solidUser,
+  faCalendar as solidCalendar,
+  faTag as solidTag
 } from '@fortawesome/free-solid-svg-icons';
 import NewsPreview from '../components/NewsPreview';
 
@@ -53,19 +53,16 @@ interface SocialLinks {
 const NewsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  
+
   const [selectedNewsArticle, setSelectedNewsArticle] = useState<NewsArticle | null>(null);
   const [latestNews, setLatestNews] = useState<LatestNewsArticle[]>([]);
   const [socialLinks, setSocialLinks] = useState<SocialLinks>({});
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const dummyImage = 'https://media.istockphoto.com/id/2151295139/photo/professional-online-gamer-hand-fingers.jpg?s=2048x2048&w=is&k=20&c=ZoyDd30pW40sgpxtg-zFypggmSfv9554TWhzpuha5FE=';
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  
 
   useEffect(() => {
     const fetchArticleData = async () => {
@@ -83,10 +80,10 @@ const NewsPage: React.FC = () => {
           `https://bedharak.vercel.app/api/v1/articles?page=1&pageSize=10000`
         );
         console.log('Full API Response:', articleResponse.data);
-        
+
         // Determine articles array (handle different response structures)
-        const articles: NewsArticle[] = Array.isArray(articleResponse.data) 
-          ? articleResponse.data 
+        const articles: NewsArticle[] = Array.isArray(articleResponse.data)
+          ? articleResponse.data
           : articleResponse.data.articles || [];
 
         if (!articles || articles.length === 0) {
@@ -94,7 +91,7 @@ const NewsPage: React.FC = () => {
         }
 
         // Find specific article with flexible matching
-        const specificArticle: NewsArticle | undefined = articles.find((article) => 
+        const specificArticle: NewsArticle | undefined = articles.find((article) =>
           article.id == id || article._id == id
         );
 
@@ -111,14 +108,14 @@ const NewsPage: React.FC = () => {
         console.log('Latest News Response:', latestNewsResponse.data);
 
         const sortedLatestNews: LatestNewsArticle[] = (
-          Array.isArray(latestNewsResponse.data) 
-            ? latestNewsResponse.data 
+          Array.isArray(latestNewsResponse.data)
+            ? latestNewsResponse.data
             : latestNewsResponse.data.articles || []
         )
           .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
           .filter((news) => news.id != id && news._id != id)
           .slice(0, 3);
-        
+
         setLatestNews(sortedLatestNews);
 
         // Set social links
@@ -161,13 +158,13 @@ const NewsPage: React.FC = () => {
       return 'Invalid Date';
     }
   };
-  
+
   // Get primary image for display
   const getPrimaryImage = (article: NewsArticle | null): string => {
     if (!article) return dummyImage;
     return article.image_1_url || article.image_url || dummyImage;
   };
-  
+
   // Get thumbnail image for latest news
   const getThumbnailImage = (article: LatestNewsArticle): string => {
     return article.image_1_url || article.image_url || dummyImage;
@@ -181,19 +178,69 @@ const NewsPage: React.FC = () => {
     return imgs.filter((src) => src !== primary);
   };
 
+  // Place highlighting: bold these place names whenever they appear
+  const PLACE_NAMES = ['उत्तर प्रदेश', 'उत्तराखंड', 'दिल्ली'];
+
+  const escapeRegExp = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const highlightPlaces = (text?: string | null) => {
+    if (!text) return null;
+
+    // Helper: parse *bold* markup inside a text chunk
+    const parseAsteriskBold = (chunk: string, keyPrefix: string) => {
+      const re = /\*(.+?)\*/g;
+      const nodes: React.ReactNode[] = [];
+      let lastIndex = 0;
+      let match: RegExpExecArray | null;
+      let partIndex = 0;
+      while ((match = re.exec(chunk)) !== null) {
+        if (match.index > lastIndex) {
+          nodes.push(chunk.slice(lastIndex, match.index));
+        }
+        nodes.push(
+          <span key={`${keyPrefix}-ast-${partIndex}`} className="font-bold">
+            {match[1]}
+          </span>
+        );
+        lastIndex = match.index + match[0].length;
+        partIndex += 1;
+      }
+      if (lastIndex < chunk.length) nodes.push(chunk.slice(lastIndex));
+      return nodes.length > 0 ? nodes : chunk;
+    };
+
+    try {
+      const regex = new RegExp(`(${PLACE_NAMES.map(escapeRegExp).join('|')})`, 'g');
+      const parts = text.split(regex);
+      return parts.flatMap((part, idx) => {
+        if (PLACE_NAMES.includes(part)) {
+          return (<span key={`place-${idx}`} className="font-bold">{part}</span>);
+        }
+        // parse *...* bold markers inside non-place parts
+        return parseAsteriskBold(part, `p-${idx}`);
+      });
+    } catch (e) {
+      return text;
+    }
+  };
+
   const renderArticleContent = (content: string | undefined, article: NewsArticle | null) => {
     if (!content || !article) return null;
-  
-    const paragraphs = content.split('\n\n');
+
+    const paragraphs = content.split(/\r?\n\r?\n/).map(p => p.trim()).filter(Boolean);
+    const n = paragraphs.length;
     let secondImageInserted = false;
     let thirdImageInserted = false;
-    
+
+    // Decide where to put the inserted images
+    const secondImageIndex = n === 2 ? 1 : Math.floor(n / 2);
+    const thirdImageIndex = Math.floor(n * 0.75);
+
     return paragraphs.map((paragraph, index) => {
       // YouTube link detection (multiple formats)
       const youtubeMatch = paragraph.match(
         /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/
       );
-  
+
       if (youtubeMatch) {
         const videoId = youtubeMatch[1];
         return (
@@ -208,72 +255,30 @@ const NewsPage: React.FC = () => {
               />
             </div>
             <p className="mt-4 text-sm md:text-base text-gray-700">
-              {paragraph.replace(youtubeMatch[0], '').trim()}
+              {highlightPlaces(paragraph.replace(youtubeMatch[0], '').trim())}
             </p>
           </div>
         );
       }
-  
-      // Twitter embed
+
+      // Twitter/X embed
       const twitterMatch = paragraph.match(
-        /https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(es)?\/(\d+)/
+        /https?:\/\/twitter\.com\/(?:#!\/)?(\w+)\/status(?:es)?\/(\d+)/
       );
-      
+
       if (twitterMatch) {
-        const tweetId = twitterMatch[3];
+        const tweetId = twitterMatch[2];
         return (
           <div key={`tweet-${index}`} className="mb-6">
             <TwitterTweetEmbed tweetId={tweetId} />
             <p className="mt-4 text-sm md:text-base text-gray-700">
-              {paragraph.replace(twitterMatch[0], '').trim()}
+              {highlightPlaces(paragraph.replace(twitterMatch[0], '').trim())}
             </p>
           </div>
         );
       }
-      
-      // Insert second image after 5 paragraphs if not already inserted
-      if (index === 5 && !secondImageInserted && article.image_2_url) {
-        secondImageInserted = true;
-        return (
-          <div key={`p2-img-${index}`} className="mb-6">
-            <img
-              src={article.image_2_url}
-              alt={`${article.title} - additional image`}
-              className="w-full rounded-lg my-4"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-              }}
-            />
-            <p className="mt-2 text-sm md:text-base text-gray-700">
-              {paragraph.trim()}
-            </p>
-          </div>
-        );
-      }
-      
-      // Insert third image after 8 paragraphs if not already inserted
-      if (index === 8 && !thirdImageInserted && article.image_3_url) {
-        thirdImageInserted = true;
-        return (
-          <div key={`p3-img-${index}`} className="mb-6">
-            <img
-              src={article.image_3_url}
-              alt={`${article.title} - additional image`}
-              className="w-full rounded-lg my-4"
-              onError={(e) => {
-                const target = e.target as HTMLImageElement;
-                target.style.display = 'none';
-              }}
-            />
-            <p className="mt-2 text-sm md:text-base text-gray-700">
-              {paragraph.trim()}
-            </p>
-          </div>
-        );
-      }
-      
-      // Check if paragraph contains an image link
+
+      // Inline image link inside paragraph
       const imageMatch = paragraph.match(/https?:\/\/\S+\.(?:jpg|jpeg|gif|png|webp)/i);
       if (imageMatch) {
         return (
@@ -288,20 +293,81 @@ const NewsPage: React.FC = () => {
               }}
             />
             <p className="mt-2 text-sm md:text-base text-gray-700">
-              {paragraph.replace(imageMatch[0], '').trim()}
+              {highlightPlaces(paragraph.replace(imageMatch[0], '').trim())}
             </p>
           </div>
         );
       }
-  
+
+      // If the paragraph is very long, split it and insert an available image in between
+      if (paragraph.length > 1000 && !secondImageInserted && article.image_2_url) {
+        secondImageInserted = true;
+        const mid = Math.floor(paragraph.length / 2);
+        let splitAt = paragraph.indexOf(' ', mid);
+        if (splitAt === -1) splitAt = mid;
+        const firstPart = paragraph.slice(0, splitAt).trim();
+        const secondPart = paragraph.slice(splitAt).trim();
+        return (
+          <div key={`split-${index}`} className="mb-6">
+            <p className="mb-4 text-sm md:text-base text-gray-700">{highlightPlaces(firstPart)}</p>
+            <img
+              src={article.image_2_url}
+              alt={`${article.title} - inline`}
+              className="w-full rounded-lg my-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            <p className="mt-2 text-sm md:text-base text-gray-700">{highlightPlaces(secondPart)}</p>
+          </div>
+        );
+      }
+
+      // Insert second image at computed index (e.g., between paragraphs or at middle)
+      if (!secondImageInserted && article.image_2_url && index === secondImageIndex) {
+        secondImageInserted = true;
+        return (
+          <div key={`p2-img-${index}`} className="mb-6">
+            <img
+              src={article.image_2_url}
+              alt={`${article.title} - additional image`}
+              className="w-full rounded-lg my-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            <p className="mt-2 text-sm md:text-base text-gray-700">{highlightPlaces(paragraph.trim())}</p>
+          </div>
+        );
+      }
+
+      // Insert third image at later index
+      if (!thirdImageInserted && article.image_3_url && index === thirdImageIndex) {
+        thirdImageInserted = true;
+        return (
+          <div key={`p3-img-${index}`} className="mb-6">
+            <img
+              src={article.image_3_url}
+              alt={`${article.title} - additional image`}
+              className="w-full rounded-lg my-4"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.style.display = 'none';
+              }}
+            />
+            <p className="mt-2 text-sm md:text-base text-gray-700">{highlightPlaces(paragraph.trim())}</p>
+          </div>
+        );
+      }
+
       // Check for other links
       const urlMatch = paragraph.match(/(https?:\/\/[^\s]+)/g);
       if (urlMatch) {
         return (
           <div key={`url-${index}`} className="mb-4">
-            <p className="text-sm md:text-base text-gray-700">
-              {paragraph.replace(urlMatch[0], '').trim()}
-            </p>
+            <p className="text-sm md:text-base text-gray-700">{highlightPlaces(paragraph.replace(urlMatch[0], '').trim())}</p>
             <a
               href={urlMatch[0]}
               target="_blank"
@@ -313,14 +379,11 @@ const NewsPage: React.FC = () => {
           </div>
         );
       }
-  
+
       // Regular paragraph
       return (
-        <p
-          key={`p-${index}`}
-          className="mb-4 text-sm md:text-lg text-gray-700 leading-relaxed"
-        >
-          {paragraph.trim()}
+        <p key={`p-${index}`} className="mb-4 text-sm md:text-lg text-gray-700 leading-relaxed">
+          {highlightPlaces(paragraph.trim())}
         </p>
       );
     });
@@ -328,35 +391,35 @@ const NewsPage: React.FC = () => {
 
 
   // Featured/hero article skeleton
-// Featured/hero article skeleton
-const HeroSkeleton = () => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 w-full min-h-screen">
-    <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden animate-pulse mx-4">
-      <div className="bg-slate-200 h-64 lg:h-80 w-full"></div>
-      <div className="p-6">
-        <div className="bg-slate-200 h-5 w-24 rounded-full mb-4"></div>
-        <div className="bg-slate-200 h-8 w-full rounded mb-2"></div>
-        <div className="bg-slate-200 h-8 w-4/5 rounded mb-4"></div>
-        
-        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
-        <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
-        <div className="bg-slate-200 h-5 w-3/4 rounded mb-4"></div>
-        
-        <div className="flex items-center mt-6">
-          <div className="bg-slate-200 h-10 w-10 rounded-full mr-3"></div>
-          <div className="bg-slate-200 h-5 w-40 rounded"></div>
+  // Featured/hero article skeleton
+  const HeroSkeleton = () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 w-full min-h-screen">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden animate-pulse mx-4">
+        <div className="bg-slate-200 h-64 lg:h-80 w-full"></div>
+        <div className="p-6">
+          <div className="bg-slate-200 h-5 w-24 rounded-full mb-4"></div>
+          <div className="bg-slate-200 h-8 w-full rounded mb-2"></div>
+          <div className="bg-slate-200 h-8 w-4/5 rounded mb-4"></div>
+
+          <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+          <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
+          <div className="bg-slate-200 h-5 w-3/4 rounded mb-4"></div>
+
+          <div className="flex items-center mt-6">
+            <div className="bg-slate-200 h-10 w-10 rounded-full mr-3"></div>
+            <div className="bg-slate-200 h-5 w-40 rounded"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
 
   // Error Component
   const ErrorDisplay = () => (
     <div className="flex flex-col justify-center items-center min-h-screen p-4 text-center">
       <h2 className="text-2xl font-bold text-red-600 mb-4">Error Loading Article</h2>
       <p className="text-gray-700 mb-4">{error || 'An unexpected error occurred'}</p>
-      <button 
+      <button
         onClick={() => {
           setError(null);
           navigate('/'); // Navigate to home or news listing page
@@ -383,144 +446,91 @@ const HeroSkeleton = () => (
 
   return (
     <div className="news-page bg-gray-50 font-sans min-h-screen w-full">
-      <header className="bg-green-600 text-white py-4 px-4 md:px-6 shadow-md">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center">
-            <span className="text-xl font-bold">
-              {selectedNewsArticle?.title || 'News Page'}
-            </span>
-            <button 
-              className="md:hidden ml-4 focus:outline-none"
-              onClick={toggleMobileMenu}
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-          </div>
-          
-          <div className="hidden md:flex space-x-4">
-            {[
-              { icon: faFacebook, platform: 'facebook' },
-              { icon: faTwitter, platform: 'twitter' },
-              { icon: faWhatsapp, platform: 'whatsapp' },
-              { icon: faLinkedin, platform: 'linkedin' },
-              { icon: faTelegram, platform: 'telegram' }
-            ].map(({ icon, platform }, index) => (
-              <button 
-                key={index} 
-                className="text-white hover:text-green-200 focus:outline-none transition-colors"
-                onClick={() => handleSocialMediaClick(platform as keyof SocialLinks)}
-              >
-                <FontAwesomeIcon icon={icon} size="lg" />
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile dropdown menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 space-y-2">
-            <div className="flex justify-start space-x-4 mt-4">
-              {[
-                { icon: faFacebook, platform: 'facebook' },
-                { icon: faTwitter, platform: 'twitter' },
-                { icon: faWhatsapp, platform: 'whatsapp' },
-                { icon: faLinkedin, platform: 'linkedin' },
-                { icon: faTelegram, platform: 'telegram' }
-              ].map(({ icon, platform }, index) => (
-                <button 
-                  key={index} 
-                  className="text-white hover:text-green-200 focus:outline-none transition-colors"
-                  onClick={() => handleSocialMediaClick(platform as keyof SocialLinks)}
-                >
-                  <FontAwesomeIcon icon={icon} size="lg" />
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
-      </header>
-
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-6 py-10">
         {/* Main News Section */}
         <section className="selected-news mb-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-            <img 
-              src={getPrimaryImage(selectedNewsArticle)} 
-              alt={selectedNewsArticle?.title || 'News Image'} 
-              className="w-full h-48 md:h-[500px] object-cover"
-              onError={(e) => { 
-                const target = e.target as HTMLImageElement;
-                target.src = dummyImage; 
-              }}
-            />
-            <div className="p-4 md:p-6">
-              <h2 className="text-xl md:text-3xl font-bold mb-2 md:mb-3 text-gray-800">
-                {selectedNewsArticle?.title}
-              </h2>
+              <div className="p-6 md:p-8">
+                <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-gray-800">
+                  {selectedNewsArticle?.title}
+                </h1>
 
-              <div className="flex flex-wrap items-center gap-4 mb-4 text-gray-600">
-                {selectedNewsArticle?.writer_name && (
-                  <div className="flex items-center space-x-2">
-                    <FontAwesomeIcon icon={solidUser} className="text-green-600" />
-                    <span className="text-sm md:text-base font-medium">
-                      {selectedNewsArticle.writer_name}
-                    </span>
-                  </div>
-                )}
-                
-                <div className="flex items-center space-x-2">
-                  <FontAwesomeIcon icon={solidCalendar} className="text-green-600" />
-                  <span className="text-sm md:text-base">
-                    {formatDate(selectedNewsArticle?.date)}
-                  </span>
-                </div>
-                
-                {selectedNewsArticle?.location && (
-                  <div className="flex items-center space-x-2">
-                    <FontAwesomeIcon icon={solidMapMarker} className="text-green-600" />
-                    <span className="text-sm md:text-base">
-                      {selectedNewsArticle.location}
-                    </span>
-                  </div>
-                )}
-                
-                {selectedNewsArticle?.category && (
-                  <div className="flex items-center space-x-2">
-                    <FontAwesomeIcon icon={solidTag} className="text-green-600" />
-                    <span className="text-sm md:text-base">
-                      {/* Access the name property of the category object */}
-                      {typeof selectedNewsArticle.category === 'object' 
-                        ? selectedNewsArticle.category.name 
-                        : selectedNewsArticle.category}
-                    </span>
-                  </div>
-                )}
-              </div>
-              
-              {galleryImages.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-                  {galleryImages.map((src, index) => (
-                    <img
-                      key={`gallery-${index}`}
-                      src={src}
-                      alt={`${selectedNewsArticle?.title || 'News Image'} - ${index + 1}`}
-                      className="w-full h-40 md:h-48 object-cover rounded-lg cursor-pointer"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = 'none';
-                      }}
-                      onClick={() => window.open(src, '_blank')}
-                    />
-                  ))}
-                </div>
-              )}
+                <div className="flex flex-wrap items-center gap-3 bg-green-50 text-green-800 px-3 py-2 rounded-md mb-4">
+                  {selectedNewsArticle?.writer_name && (
+                    <div className="flex items-center space-x-2">
+                      <FontAwesomeIcon icon={solidUser} className="text-green-600" />
+                      <span className="text-sm md:text-base font-medium">
+                        {highlightPlaces(selectedNewsArticle.writer_name)}
+                      </span>
+                    </div>
+                  )}
 
-              <div className="content-wrapper space-y-2 md:space-y-4">
-                {renderArticleContent(selectedNewsArticle?.content, selectedNewsArticle)}
+                  <div className="flex items-center space-x-2">
+                    <FontAwesomeIcon icon={solidCalendar} className="text-green-600" />
+                    <span className="text-sm md:text-base">
+                      {formatDate(selectedNewsArticle?.date)}
+                    </span>
+                  </div>
+
+                  {selectedNewsArticle?.location && (
+                    <div className="flex items-center space-x-2">
+                      <FontAwesomeIcon icon={solidMapMarker} className="text-green-600" />
+                      <span className="text-sm md:text-base">
+                        {PLACE_NAMES.includes(String(selectedNewsArticle.location)) ? (
+                          <span className="font-bold">{selectedNewsArticle.location}</span>
+                        ) : (
+                          selectedNewsArticle.location
+                        )}
+                      </span>
+                    </div>
+                  )}
+
+                  {selectedNewsArticle?.category && (
+                    <div className="flex items-center space-x-2">
+                      <FontAwesomeIcon icon={solidTag} className="text-green-600" />
+                      <span className="text-sm md:text-base">
+                        {typeof selectedNewsArticle.category === 'object'
+                          ? (selectedNewsArticle.category as any).name
+                          : selectedNewsArticle.category}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
+
+              <img
+                src={getPrimaryImage(selectedNewsArticle)}
+                alt={selectedNewsArticle?.title || 'News Image'}
+                className="w-full h-48 md:h-[500px] object-cover mb-6"
+                onError={(e) => {
+                  const target = e.target as HTMLImageElement;
+                  target.src = dummyImage;
+                }}
+              />
+
+              <div className="p-6 md:p-8">
+                {galleryImages.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+                    {galleryImages.map((src, index) => (
+                      <img
+                        key={`gallery-${index}`}
+                        src={src}
+                        alt={`${selectedNewsArticle?.title || 'News Image'} - ${index + 1}`}
+                        className="w-full h-48 md:h-56 object-cover rounded-lg cursor-pointer"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
+                        onClick={() => window.open(src, '_blank')}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                <div className="content-wrapper space-y-4 md:space-y-6">
+                  {renderArticleContent(selectedNewsArticle?.content, selectedNewsArticle)}
+                </div>
+              </div>
           </div>
         </section>
 
@@ -530,20 +540,20 @@ const HeroSkeleton = () => (
             <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-gray-800">
               Latest News
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8">
               {latestNews.map((news) => (
                 <div
                   key={news.id || news._id}
                   className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow cursor-pointer"
                   onClick={() => window.location.href = `/NewsPage/${news.id || news._id}`}
                 >
-                  <img 
-                    src={getThumbnailImage(news)} 
-                    alt={news.title || 'News Image'} 
+                  <img
+                    src={getThumbnailImage(news)}
+                    alt={news.title || 'News Image'}
                     className="w-full h-36 md:h-48 object-cover rounded-t-lg"
-                    onError={(e) => { 
+                    onError={(e) => {
                       const target = e.target as HTMLImageElement;
-                      target.src = dummyImage; 
+                      target.src = dummyImage;
                     }}
                   />
                   <div className="p-2 md:p-4">
@@ -551,8 +561,8 @@ const HeroSkeleton = () => (
                       {news.title || 'Untitled News'}
                     </h3>
                     <p className="text-xs md:text-sm text-gray-500">
-                      {news.date 
-                        ? new Date(news.date).toLocaleString() 
+                      {news.date
+                        ? new Date(news.date).toLocaleString()
                         : 'Date not available'}
                     </p>
                   </div>

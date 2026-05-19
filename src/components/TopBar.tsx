@@ -88,10 +88,9 @@ const TopBar = () => {
   return (
     <nav
       className={`
-        ${
-          isDarkMode
-            ? "bg-gradient-to-r from-gray-900 to-gray-800"
-            : "bg-gradient-to-r from-red-700 to-red-600"
+        ${isDarkMode
+          ? "bg-gradient-to-r from-gray-900 to-gray-800"
+          : "bg-gradient-to-r from-red-700 to-red-600"
         } 
         text-white shadow-2xl transition-all duration-300 ease-in-out overflow-x-auto
       `}
@@ -102,17 +101,16 @@ const TopBar = () => {
           {/* <span className="mt-2">📍 नई दिल्ली</span>
           <span className="mt-2">🌤️ 28°C</span> */}
         </div>
-         {/* <LocationWeather /> */}
+        {/* <LocationWeather /> */}
 
         <div className="mr-0 md:flex items-center space-x-4 mt-2 md:mr-10 font-bold text-sm ">
           <Link
             to="/Advertisement"
             className={`mr-3 md:flex items-center space-x-2 px-3 py-1 rounded-full text-sm font-medium
-                  transition-all duration-300 ease-in-out whitespace-nowrap ${
-                    location.pathname === "/Advertisement"
-                      ? "bg-white text-red-600"
-                      : "bg-white text-red-600"
-                  } `}
+                  transition-all duration-300 ease-in-out whitespace-nowrap ${location.pathname === "/Advertisement"
+                ? "bg-white text-red-600"
+                : "bg-white text-red-600"
+              } `}
           >
             विज्ञापन के लिए संपर्क करें
           </Link>
@@ -122,15 +120,15 @@ const TopBar = () => {
         </div>
       </div>
       <div className="flex items-center justify-between px-4 py-1 border-b border-opacity-20 border-white">
-      <div className="flex items-center p-0 m-0">
-      <Link to="/">
-        <img
-          src={logo}
-          alt="logo"
-          className="h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 object-cover rounded-full"
-        />
-      </Link>
-</div>
+        <div className="flex items-center p-0 m-0">
+          <Link to="/">
+            <img
+              src={logo}
+              alt="logo"
+              className="h-20 w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 object-cover rounded-full"
+            />
+          </Link>
+        </div>
 
         <div className="overflow-x-auto flex items-center space-x-4">
           <div className="hidden md:flex justify-center space-x-6">
@@ -207,10 +205,9 @@ const TopBar = () => {
                 className={`
                   flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium
                   transition-all duration-300 ease-in-out whitespace-nowrap
-                  ${
-                    location.pathname === item.path
-                      ? "bg-white text-red-600"
-                      : "hover:bg-white/10"
+                  ${location.pathname === item.path
+                    ? "bg-white text-red-600"
+                    : "hover:bg-white/10"
                   }
                 `}
               >
@@ -223,11 +220,10 @@ const TopBar = () => {
         <Link
           to="/ContactUs"
           className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 ease-in-out whitespace-nowrap hover:bg-white/10 ml-10                   
-        ${
-          location.pathname === "/ContactUs"
-            ? "bg-white text-red-600"
-            : "hover:bg-white/10"
-        }`}
+        ${location.pathname === "/ContactUs"
+              ? "bg-white text-red-600"
+              : "hover:bg-white/10"
+            }`}
         >
           <Bell p-10 size={20} />
           हमारे बारे में

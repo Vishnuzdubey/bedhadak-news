@@ -193,13 +193,13 @@ const Home = () => {
 
   return (
     <div>
-      <main className="flex-1 container mx-auto px-4 py-8">
+      <main className="flex-1 container mx-auto px-6 py-10">
         {/* Breaking News Section */}
         <section className="mb-12">
           <h2 className={`text-3xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-            ब्रेकिंग न्यूज़
+            न्यूज़ अपडेट
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {breakingNews.map((news) => (
               <NewsCard 
               key={news.id} 
@@ -223,9 +223,9 @@ const Home = () => {
         {Object.entries(cityNews).map(([city, newsItems]) => (
           <div key={city} className="mb-12">
             <h2 className={`text-2xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              {city} की ताज़ा खबरें
+              {city}
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {newsItems.map((news) => (
                 <NewsCard 
                   key={news.id} 
