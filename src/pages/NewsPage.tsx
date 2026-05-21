@@ -62,7 +62,7 @@ const NewsPage: React.FC = () => {
 
   const dummyImage = 'https://media.istockphoto.com/id/2151295139/photo/professional-online-gamer-hand-fingers.jpg?s=2048x2048&w=is&k=20&c=ZoyDd30pW40sgpxtg-zFypggmSfv9554TWhzpuha5FE=';
 
-  
+
 
   useEffect(() => {
     const fetchArticleData = async () => {
@@ -450,87 +450,87 @@ const NewsPage: React.FC = () => {
         {/* Main News Section */}
         <section className="selected-news mb-8">
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-              <div className="p-6 md:p-8">
-                <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-gray-800">
-                  {selectedNewsArticle?.title}
-                </h1>
+            <div className="p-6 md:p-8">
+              <h1 className="text-3xl md:text-5xl font-extrabold mb-3 text-gray-800">
+                {selectedNewsArticle?.title}
+              </h1>
 
-                <div className="flex flex-wrap items-center gap-3 bg-green-50 text-green-800 px-3 py-2 rounded-md mb-4">
-                  {selectedNewsArticle?.writer_name && (
-                    <div className="flex items-center space-x-2">
-                      <FontAwesomeIcon icon={solidUser} className="text-green-600" />
-                      <span className="text-sm md:text-base font-medium">
-                        {highlightPlaces(selectedNewsArticle.writer_name)}
-                      </span>
-                    </div>
-                  )}
-
+              <div className="flex flex-wrap items-center gap-3 bg-green-50 text-green-800 px-3 py-2 rounded-md mb-4">
+                {selectedNewsArticle?.writer_name && (
                   <div className="flex items-center space-x-2">
-                    <FontAwesomeIcon icon={solidCalendar} className="text-green-600" />
-                    <span className="text-sm md:text-base">
-                      {formatDate(selectedNewsArticle?.date)}
+                    <FontAwesomeIcon icon={solidUser} className="text-green-600" />
+                    <span className="text-sm md:text-base font-medium">
+                      {highlightPlaces(selectedNewsArticle.writer_name)}
                     </span>
-                  </div>
-
-                  {selectedNewsArticle?.location && (
-                    <div className="flex items-center space-x-2">
-                      <FontAwesomeIcon icon={solidMapMarker} className="text-green-600" />
-                      <span className="text-sm md:text-base">
-                        {PLACE_NAMES.includes(String(selectedNewsArticle.location)) ? (
-                          <span className="font-bold">{selectedNewsArticle.location}</span>
-                        ) : (
-                          selectedNewsArticle.location
-                        )}
-                      </span>
-                    </div>
-                  )}
-
-                  {selectedNewsArticle?.category && (
-                    <div className="flex items-center space-x-2">
-                      <FontAwesomeIcon icon={solidTag} className="text-green-600" />
-                      <span className="text-sm md:text-base">
-                        {typeof selectedNewsArticle.category === 'object'
-                          ? (selectedNewsArticle.category as any).name
-                          : selectedNewsArticle.category}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <img
-                src={getPrimaryImage(selectedNewsArticle)}
-                alt={selectedNewsArticle?.title || 'News Image'}
-                className="w-full h-48 md:h-[500px] object-cover mb-6"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.src = dummyImage;
-                }}
-              />
-
-              <div className="p-6 md:p-8">
-                {galleryImages.length > 0 && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
-                    {galleryImages.map((src, index) => (
-                      <img
-                        key={`gallery-${index}`}
-                        src={src}
-                        alt={`${selectedNewsArticle?.title || 'News Image'} - ${index + 1}`}
-                        className="w-full h-48 md:h-56 object-cover rounded-lg cursor-pointer"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.style.display = 'none';
-                        }}
-                        onClick={() => window.open(src, '_blank')}
-                      />
-                    ))}
                   </div>
                 )}
 
-                <div className="content-wrapper space-y-4 md:space-y-6">
-                  {renderArticleContent(selectedNewsArticle?.content, selectedNewsArticle)}
+                <div className="flex items-center space-x-2">
+                  <FontAwesomeIcon icon={solidCalendar} className="text-green-600" />
+                  <span className="text-sm md:text-base">
+                    {formatDate(selectedNewsArticle?.date)}
+                  </span>
                 </div>
+
+                {selectedNewsArticle?.location && (
+                  <div className="flex items-center space-x-2">
+                    <FontAwesomeIcon icon={solidMapMarker} className="text-green-600" />
+                    <span className="text-sm md:text-base">
+                      {PLACE_NAMES.includes(String(selectedNewsArticle.location)) ? (
+                        <span className="font-bold">{selectedNewsArticle.location}</span>
+                      ) : (
+                        selectedNewsArticle.location
+                      )}
+                    </span>
+                  </div>
+                )}
+
+                {selectedNewsArticle?.category && (
+                  <div className="flex items-center space-x-2">
+                    <FontAwesomeIcon icon={solidTag} className="text-green-600" />
+                    <span className="text-sm md:text-base">
+                      {typeof selectedNewsArticle.category === 'object'
+                        ? (selectedNewsArticle.category as any).name
+                        : selectedNewsArticle.category}
+                    </span>
+                  </div>
+                )}
               </div>
+            </div>
+
+            <img
+              src={getPrimaryImage(selectedNewsArticle)}
+              alt={selectedNewsArticle?.title || 'News Image'}
+              className="w-full h-48 md:h-[500px] object-cover mb-6"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = dummyImage;
+              }}
+            />
+
+            <div className="p-6 md:p-8">
+              {galleryImages.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+                  {galleryImages.map((src, index) => (
+                    <img
+                      key={`gallery-${index}`}
+                      src={src}
+                      alt={`${selectedNewsArticle?.title || 'News Image'} - ${index + 1}`}
+                      className="w-full h-48 md:h-56 object-cover rounded-lg cursor-pointer"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                      }}
+                      onClick={() => window.open(src, '_blank')}
+                    />
+                  ))}
+                </div>
+              )}
+
+              <div className="content-wrapper space-y-4 md:space-y-6">
+                {renderArticleContent(selectedNewsArticle?.content, selectedNewsArticle)}
+              </div>
+            </div>
           </div>
         </section>
 

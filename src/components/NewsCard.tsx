@@ -65,7 +65,7 @@ const NewsCard: React.FC<NewsCardProps> = ({ id, title, description, image, cate
         <p className={`mb-4 ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
           {renderAsteriskBold(description) as React.ReactNode}
         </p>
-        
+
       </div>
     </div>
   );

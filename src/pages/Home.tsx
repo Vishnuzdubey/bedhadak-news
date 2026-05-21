@@ -48,21 +48,21 @@ const Home = () => {
     <div className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse">
       {/* Skeleton image */}
       <div className="bg-slate-200 h-48 w-full"></div>
-      
+
       {/* Skeleton content */}
       <div className="p-4">
         {/* Category pill */}
         <div className="bg-slate-200 h-5 w-20 rounded-full mb-3"></div>
-        
+
         {/* Title */}
         <div className="bg-slate-200 h-6 w-full rounded mb-2"></div>
         <div className="bg-slate-200 h-6 w-3/4 rounded mb-4"></div>
-        
+
         {/* Description */}
         <div className="bg-slate-200 h-4 w-full rounded mb-1"></div>
         <div className="bg-slate-200 h-4 w-full rounded mb-1"></div>
         <div className="bg-slate-200 h-4 w-2/3 rounded mb-4"></div>
-        
+
         {/* Author and date */}
         <div className="flex items-center mt-4">
           <div className="bg-slate-200 h-8 w-8 rounded-full mr-3"></div>
@@ -80,11 +80,11 @@ const Home = () => {
         <div className="bg-slate-200 h-5 w-24 rounded-full mb-4"></div>
         <div className="bg-slate-200 h-8 w-full rounded mb-2"></div>
         <div className="bg-slate-200 h-8 w-4/5 rounded mb-4"></div>
-        
+
         <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
         <div className="bg-slate-200 h-5 w-full rounded mb-1"></div>
         <div className="bg-slate-200 h-5 w-3/4 rounded mb-4"></div>
-        
+
         <div className="flex items-center mt-6">
           <div className="bg-slate-200 h-10 w-10 rounded-full mr-3"></div>
           <div className="bg-slate-200 h-5 w-40 rounded"></div>
@@ -94,31 +94,28 @@ const Home = () => {
   );
 
   const cities = [
-    'uttar pardesh', 
-    'Gorakhpur', 
-    'Delhi', 
-    'Bihar', 
+    'uttar pardesh',
+    'Gorakhpur',
+    'Delhi',
+    'Bihar',
     'Utrakhand'
   ];
 
   useEffect(() => {
     const fetchBreakingNews = async () => {
       try {
-        const response = await axios.get('https://bedharak.vercel.app/api/v1/articles?page=1&pageSize=10000');
-        
-        // Filter breaking news and sort by most recent date
-        const breakingNewsItems = response.data
-          .filter((news: NewsItem) => news.breaking)
-          .sort((a: NewsItem, b: NewsItem) => 
-            // Use getTime() to compare dates directly
-            new Date(b.date).getTime() - new Date(a.date).getTime()
-          )
-          // Optionally limit to top 3 most recent breaking news
+        const response = await axios.get('https://bedharak.vercel.app/api/v1/articles?page=1&pageSize=1000000');
+        const articles = Array.isArray(response.data) ? response.data : response.data.articles || [];
+
+        // Sort all articles by date and take the most recent three
+        const recentNewsItems = articles
+          .slice()
+          .sort((a: NewsItem, b: NewsItem) => new Date(b.date).getTime() - new Date(a.date).getTime())
           .slice(0, 3);
-        
-        setBreakingNews(breakingNewsItems);
+
+        setBreakingNews(recentNewsItems);
       } catch (error) {
-        console.error('Error fetching breaking news:', error);
+        console.error('Error fetching recent news:', error);
       }
     };
     const fetchCityNews = async () => {
@@ -129,8 +126,8 @@ const Home = () => {
         });
 
         const cityNewsResults = await Promise.all(cityNewsPromises);
-        const cityNewsMap = cityNewsResults.reduce((acc, curr) => ({...acc, ...curr}), {});
-        
+        const cityNewsMap = cityNewsResults.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+
         setCityNews(cityNewsMap);
         setLoading(false);
       } catch (error) {
@@ -149,46 +146,48 @@ const Home = () => {
   };
 
   if (loading) {
-    <div className="bg-slate-50 min-h-screen">
-    {/* Header skeleton */}
-    <header className="bg-white shadow-sm py-4 px-6 mb-6">
-      <div className="flex justify-between items-center max-w-7xl mx-auto">
-        <div className="bg-slate-200 h-8 w-32 rounded animate-pulse"></div>
-        <div className="hidden md:flex space-x-4">
-          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-          <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-        </div>
-        <div className="bg-slate-200 h-8 w-8 rounded-full animate-pulse"></div>
-      </div>
-    </header>
-    
-    {/* Main content */}
-    <main className="max-w-7xl mx-auto px-4 sm:px-6">
-      {/* Breaking news bar */}
-      <div className="bg-slate-200 h-10 w-full rounded mb-6 animate-pulse"></div>
-      
-      {/* Grid layout for articles */}
-      <div className="grid grid-cols-12 gap-6">
-        {/* Hero article */}
-        <HeroSkeleton />
-        
-        {/* Sidebar featured */}
-        <div className="col-span-12 lg:col-span-4 space-y-6">
-          <SkeletonCard />
-          <div className="bg-slate-200 h-32 w-full rounded animate-pulse"></div>
-        </div>
-        
-        {/* Regular article cards - 3x2 grid */}
-        {[...Array(6)].map((_, index) => (
-          <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4">
-            <SkeletonCard />
+    return (
+      <div className="bg-slate-50 min-h-screen">
+      {/* Header skeleton */}
+      <header className="bg-white shadow-sm py-4 px-6 mb-6">
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
+          <div className="bg-slate-200 h-8 w-32 rounded animate-pulse"></div>
+          <div className="hidden md:flex space-x-4">
+            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
           </div>
-        ))}
+          <div className="bg-slate-200 h-8 w-8 rounded-full animate-pulse"></div>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Breaking news bar */}
+        <div className="bg-slate-200 h-10 w-full rounded mb-6 animate-pulse"></div>
+
+        {/* Grid layout for articles */}
+        <div className="grid grid-cols-12 gap-6">
+          {/* Hero article */}
+          <HeroSkeleton />
+
+          {/* Sidebar featured */}
+          <div className="col-span-12 lg:col-span-4 space-y-6">
+            <SkeletonCard />
+            <div className="bg-slate-200 h-32 w-full rounded animate-pulse"></div>
+          </div>
+
+          {/* Regular article cards - 3x2 grid */}
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4">
+              <SkeletonCard />
+            </div>
+          ))}
+        </div>
+      </main>
       </div>
-    </main>
-  </div>
+    );
   }
 
   return (
@@ -201,15 +200,15 @@ const Home = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {breakingNews.map((news) => (
-              <NewsCard 
-              key={news.id} 
-              title={news.title}
-              description={news.content.split(' ').slice(0, 10).join(' ') + '...'}
-              image={news.image_1_url || 'https://via.placeholder.com/300x200'}
-              category={news.location}
-              id={news.id}
-              isDarkMode={isDarkMode}
-              onClick={() => handleNewsCardClick(news.id)}
+              <NewsCard
+                key={news.id}
+                title={news.title}
+                description={news.content.split(' ').slice(0, 10).join(' ') + '...'}
+                image={news.image_1_url || 'https://via.placeholder.com/300x200'}
+                category={news.location}
+                id={news.id}
+                isDarkMode={isDarkMode}
+                onClick={() => handleNewsCardClick(news.id)}
               />
             ))}
           </div>
@@ -227,8 +226,8 @@ const Home = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {newsItems.map((news) => (
-                <NewsCard 
-                  key={news.id} 
+                <NewsCard
+                  key={news.id}
                   title={news.title}
                   description={news.content.split(' ').slice(0, 8).join(' ') + '...'}
                   image={news.image_1_url || 'https://via.placeholder.com/300x200'}
@@ -242,9 +241,9 @@ const Home = () => {
           </div>
         ))}
 
-<CategoryNews categoryId="4" />
-{/* <NewsContainer categoryId="4" />; */}
-        
+        <CategoryNews categoryId="4" />
+        {/* <NewsContainer categoryId="4" />; */}
+
 
         {/* <div className="w-full h-32 bg-red-600 rounded-lg mb-12 flex items-center justify-center text-white">
           <p className="text-xl font-bold">विज्ञापन स्थान</p>
