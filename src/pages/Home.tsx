@@ -96,9 +96,7 @@ const Home = () => {
   const cities = [
     'uttar pardesh',
     'Gorakhpur',
-    'Delhi',
-    'Bihar',
-    'Utrakhand'
+    'Delhi'
   ];
 
   useEffect(() => {
@@ -148,44 +146,44 @@ const Home = () => {
   if (loading) {
     return (
       <div className="bg-slate-50 min-h-screen">
-      {/* Header skeleton */}
-      <header className="bg-white shadow-sm py-4 px-6 mb-6">
-        <div className="flex justify-between items-center max-w-7xl mx-auto">
-          <div className="bg-slate-200 h-8 w-32 rounded animate-pulse"></div>
-          <div className="hidden md:flex space-x-4">
-            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-            <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
-          </div>
-          <div className="bg-slate-200 h-8 w-8 rounded-full animate-pulse"></div>
-        </div>
-      </header>
-
-      {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Breaking news bar */}
-        <div className="bg-slate-200 h-10 w-full rounded mb-6 animate-pulse"></div>
-
-        {/* Grid layout for articles */}
-        <div className="grid grid-cols-12 gap-6">
-          {/* Hero article */}
-          <HeroSkeleton />
-
-          {/* Sidebar featured */}
-          <div className="col-span-12 lg:col-span-4 space-y-6">
-            <SkeletonCard />
-            <div className="bg-slate-200 h-32 w-full rounded animate-pulse"></div>
-          </div>
-
-          {/* Regular article cards - 3x2 grid */}
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4">
-              <SkeletonCard />
+        {/* Header skeleton */}
+        <header className="bg-white shadow-sm py-4 px-6 mb-6">
+          <div className="flex justify-between items-center max-w-7xl mx-auto">
+            <div className="bg-slate-200 h-8 w-32 rounded animate-pulse"></div>
+            <div className="hidden md:flex space-x-4">
+              <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+              <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+              <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
+              <div className="bg-slate-200 h-5 w-16 rounded animate-pulse"></div>
             </div>
-          ))}
-        </div>
-      </main>
+            <div className="bg-slate-200 h-8 w-8 rounded-full animate-pulse"></div>
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6">
+          {/* Breaking news bar */}
+          <div className="bg-slate-200 h-10 w-full rounded mb-6 animate-pulse"></div>
+
+          {/* Grid layout for articles */}
+          <div className="grid grid-cols-12 gap-6">
+            {/* Hero article */}
+            <HeroSkeleton />
+
+            {/* Sidebar featured */}
+            <div className="col-span-12 lg:col-span-4 space-y-6">
+              <SkeletonCard />
+              <div className="bg-slate-200 h-32 w-full rounded animate-pulse"></div>
+            </div>
+
+            {/* Regular article cards - 3x2 grid */}
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="col-span-12 md:col-span-6 lg:col-span-4">
+                <SkeletonCard />
+              </div>
+            ))}
+          </div>
+        </main>
       </div>
     );
   }
